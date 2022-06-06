@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CoPresentIcon from '@mui/icons-material/CoPresent';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import {List, Paper, Stack, Button} from '@mui/material';
 
 class GameModeMenu extends React.Component {
@@ -18,7 +17,7 @@ class GameModeMenu extends React.Component {
   }
 
   getAllPlayers = async () => {
-    const res = await fetch('http://192.168.1.65:9001/getplayers', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/getplayers', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -91,7 +90,7 @@ function handleClickSingleplayer() {
 }
 
 async function apiAddPlayer(username, isDm, playerNumber) {
-  const res = await fetch('http://192.168.1.65:9001/addplayer', {
+  const res = await fetch('http://YOUR_URL_HERE:9001/addplayer', {
     method: 'POST',
     body: JSON.stringify({
       username: username,

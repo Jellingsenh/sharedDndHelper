@@ -45,7 +45,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -58,7 +58,7 @@ class GamePlayMenu extends React.Component {
             console.log(err);
         });
 
-        // const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
+        // const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
         //     method: 'GET',
         // })
         // .then(response => response.json())
@@ -77,7 +77,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getInitiative = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/getinitiative', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getinitiative', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -98,7 +98,7 @@ class GamePlayMenu extends React.Component {
     //     console.log('getting ' + this.state.currentCharacterBeingEditedName + ' (to view) ...')
 
     //     try {
-    //         const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
+    //         const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
     //             method: 'GET'
     //         })
     //         var char = await response.json();
@@ -122,7 +122,7 @@ class GamePlayMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterBeingEditedName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
+            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -278,7 +278,7 @@ function editCharacterHealth(charName) {
 
 async function apiEditCharacterHealth(charName, currentHealth) {
     
-        const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacterhealth', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacterhealth', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,

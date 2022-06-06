@@ -154,7 +154,7 @@ async function apiRollInitiative(initNameList) {
 
     console.log("PC initiative list: ", initNameList);
     
-    const res = fetch('http://192.168.19.1:9001/playermenu/rollinitiative', {
+    const res = fetch('http://YOUR_URL_HERE_2:9001/playermenu/rollinitiative', {
         method: 'POST',
         body: initNameList
     })
@@ -181,7 +181,7 @@ async function apiUpdateInitiative(initNamesList) {
 
     console.log("character initiative list: ", initNamesList);
     
-    const res = fetch('http://192.168.19.1:9001/playermenu/changeinitiative', {
+    const res = fetch('http://YOUR_URL_HERE_2:9001/playermenu/changeinitiative', {
         method: 'POST',
         body: initNamesList
     })
