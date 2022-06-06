@@ -203,7 +203,7 @@ class GamePlayMenu extends React.Component {
                 </div>
                 <h1>Gameplay Menu</h1>
                 <h3>Initiative order:</h3>
-                    <Paper style={{maxHeight: 600, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'lightblue',  border: '40px solid lightblue', borderRadius: '10px'}}>
+                    <Paper style={{maxHeight: 600, maxWidth: 1700, overflow: 'auto', 'backgroundColor':'lightblue',  border: '40px solid lightblue', borderRadius: '10px'}}>
                         {Object.entries(this.state.initiativeOrder).map((character) => (
                             <List key = {character} >
                                 <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row"}}>

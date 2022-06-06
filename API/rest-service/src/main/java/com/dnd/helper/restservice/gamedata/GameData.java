@@ -338,6 +338,14 @@ public class GameData implements Serializable {
 	}
 	
 	public void addNewCharacterToInitMapUnrolled(DndCharacter d) {
+		
+		for (Map<String, String> mappedChar : getInitiativeOrder()) {
+			if (mappedChar.get("name").equals(d.getCharName())) {
+				System.out.println(d.getCharName() + " is already in the initiative map" );
+				return; // do not add twice
+			}
+		}
+
 		System.out.println("Adding " + d.getCharName() + " to the initiative map" );
 		Map<String, String> tempInitiativeMap = new HashMap<>();
 		tempInitiativeMap.put("name", d.getCharName());
