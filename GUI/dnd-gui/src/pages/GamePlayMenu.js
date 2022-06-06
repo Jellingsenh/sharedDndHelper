@@ -143,10 +143,6 @@ class GamePlayMenu extends React.Component {
 
     render() {
 
-        // todo:
-
-        // share prep: duplicate4 git, remove pC, remove max coords, remove dm options
-
         return (
             <div>
                 {/* Popups: */}

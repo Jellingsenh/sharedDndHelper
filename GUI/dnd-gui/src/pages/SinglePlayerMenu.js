@@ -547,9 +547,9 @@ class SinglePlayerMenu extends React.Component {
                     <div>
                         <Stack spacing={1}>
                             <p></p>
-                            <Button color="sixth" onClick={openDMOptions} variant="contained" endIcon={<AccessTime />}>
-                                    Dungeon Master options
-                                </Button>
+                            {/* <Button color="sixth" onClick={openDMOptions} variant="contained" endIcon={<AccessTime />}>
+                                Dungeon Master options
+                            </Button> */}
                             <Button color="third" onClick={this.getPcsForInitiative.bind(this)} variant="contained" endIcon={<PriorityHigh />}>
                                 Roll initiative
                             </Button>
@@ -570,10 +570,11 @@ export default SinglePlayerMenu;
 function moveToMapV2(charName) {
     if (charName != null && charName != '') {
 
-        var mapLoc = prompt('Enter map h.e.x. coordinates (ex: \"h:1,e:0,x:-1\", Enter nothing for 0,0,0):');
-        if (mapLoc == null || mapLoc == '') {
-            mapLoc = "h0e0x0"
-        }
+        // var mapLoc = prompt('Enter map h.e.x. coordinates (ex: \"h:1,e:0,x:-1\", Enter nothing for 0,0,0):');
+        // if (mapLoc == null || mapLoc == '') {
+        //     mapLoc = "h0e0x0"
+        // }
+        var mapLoc = "h0e0x0"
 
         apiMoveCharacterToMap(charName, mapLoc);
     }

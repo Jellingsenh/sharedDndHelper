@@ -46,7 +46,7 @@ class GameModeMenu extends React.Component {
           </Paper>
           <Stack spacing={10}>
             <div className="main-menu-button-group">
-              {/* <h3>Enter the game as:</h3> */}
+              <h3>Enter the game:</h3>
                 <Stack spacing={2}>
                   <Button color="secondary" onClick={handleClickSingleplayer} variant="contained" endIcon={<CoPresentIcon />}>
                     Play as a Dungeon Master
