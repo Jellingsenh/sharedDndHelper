@@ -28,7 +28,8 @@ How to compile & run project:
 Connecting to the webapp (running on http://localhost:3005/):
 Connecting via:
   Same network: http://192.168.1.65:3005/
-  Different network: http://69.219.168.169:3005/
+  Different network: http://{your ip}:3005/
 
 You'll have to find your ip addresess ^ (the top one is ipv4)
+
 You may have to turn on port forwarding!
