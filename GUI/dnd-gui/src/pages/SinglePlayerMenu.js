@@ -2,7 +2,7 @@ import React from 'react';
 import { Accessibility, ChildCare, RemoveCircleOutline, PersonAdd, PriorityHigh, AccessTime, SaveAlt, Downloading, PersonRemove, Edit, Upload, Clear } from '@mui/icons-material';
 import {List, Paper, Stack, Button} from '@mui/material';
 import {returnCharacterCreatePopup, returnCharacterEditPopup} from '../components/EditCharacterPopups.js';
-import {enterPcInitiativesPopup} from '../components/InitiativePopups.js';
+import {enterPcInitiativesPopup, quickRollInitiative} from '../components/InitiativePopups.js';
 
 class SinglePlayerMenu extends React.Component {
 
@@ -172,10 +172,14 @@ class SinglePlayerMenu extends React.Component {
         .then(response => response.json())
         .then(response => {
             console.log("got PCs: ", response);
-            this.setState({
-                PCs: response,
-                modal11Open: true,
-            });
+            if (response.length == 0) {
+                quickRollInitiative();
+            } else {
+                this.setState({
+                    PCs: response,
+                    modal11Open: true,
+                });
+            }
         })
         .catch(err => {
             console.log(err);

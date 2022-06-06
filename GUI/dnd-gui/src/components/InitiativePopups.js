@@ -31,6 +31,10 @@ export function enterPcInitiativesPopup(pcList) {
     );
 }
 
+export function quickRollInitiative() {
+    apiRollInitiative("{}");
+}
+
 export function editAllInitiativesPopup(charList) { // charList is a map with initiatives
     // console.log('initiative order: ' + charList)
     // Object.entries(charList).map((character) => (
@@ -88,6 +92,7 @@ function setCharacterInitiative(e, charName) {
 }
 
 function prepopulateInitNamesMap(charName, init) {
+    console.log('prepopulating initiative map for edit...', charName, init);
     initNamesMap.map(char => {
         if (char.name == charName) {
             initNamesMap = initNamesMap.filter(function(person) { 

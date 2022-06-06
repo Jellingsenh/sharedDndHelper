@@ -357,6 +357,10 @@ public class GameData implements Serializable {
 		tempInitiativeMap.put("other", d.otherString);
 		
 		getInitiativeOrder().add(tempInitiativeMap);
+
+		if (!getBaseCharacterInits().containsKey(d)) {
+			getBaseCharacterInits().put(d, 0);
+		}
 	}
 	
 	// ----- ----- -----
