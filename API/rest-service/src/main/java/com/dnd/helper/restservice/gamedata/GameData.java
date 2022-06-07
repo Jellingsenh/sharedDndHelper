@@ -362,6 +362,13 @@ public class GameData implements Serializable {
 			getBaseCharacterInits().put(d, 0);
 		}
 	}
+
+	public void removeCharacterFromInitMapUnrolled(DndCharacter d) {
+		if (getBaseCharacterInits().containsKey(d)) {
+			getBaseCharacterInits().remove(d);
+		}
+		changeInitiativeOrder(); // change actually just updates & sorts the list, does not change it
+	}
 	
 	// ----- ----- -----
 	

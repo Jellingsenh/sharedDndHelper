@@ -522,7 +522,7 @@ public class PlayerMenuAPI {
 							notInMapChars.add(d);
 							inMapChars.remove(d);
 						}
-						
+						gameData.removeCharacterFromInitMapUnrolled(d);
 						System.out.println("Moved character " + characterName + " out of the map.");
 						return new ResponseEntity<> (new ObjectMapper().writeValueAsString(getAllCharacterNames()), HttpStatus.OK); // 200
 					}
