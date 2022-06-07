@@ -21,9 +21,20 @@ How to compile & run project:
 
 2) to run the webapp:
 
-  a) install React: https://docs.microsoft.com/en-us/windows/dev-environment/javascript/react-on-windows (may be different for Mac)
-  b) There are probably some Material-UI dependencies you will need. You can google the dependency error once the website starts & Stack Overflow will show you what command you need to import the dependency (exs: 'npm install @material-ui/core' & 'npm install @material-ui/icons').
-  c) To run the website, navigate to the dnd-gui directory and enter: 'npm start'
+  a) Get Windows subsystem for Linux (if on Windows): https://docs.microsoft.com/en-us/windows/wsl/install
+  b) (In Ubuntu) Install React:
+      'sudo apt update && sudo apt upgrade'
+      'sudo apt install npm'
+      'sudo apt install nodejs'
+      'sudo npm install'
+      'npx create-react-app'
+  c) Other dependencies (navigate into the dnd-gui folder): 
+      'sudo npm install @material-ui/core'
+      'sudo npm install @material-ui/icons'
+      'sudo npm install react-dom'
+      'sudo npm install react-router-dom'
+  d) To run the website, navigate to the dnd-gui directory and enter: 
+      'npm start'
 
 --------------------
 
