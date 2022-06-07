@@ -32,9 +32,7 @@ Connecting via:
 
 You'll have to find your ip addresess ^ (the top one is ipv4)
 
-You may have to turn on port forwarding!
-
 
 --------------------
 
-You will also have to replace all of the instances of YOUR_URL_HERE and YOUR_URL_HERE_2 with your own ip address!!
+You will also have to replace all of the instances of YOUR_URL_HERE with your own ip address!!

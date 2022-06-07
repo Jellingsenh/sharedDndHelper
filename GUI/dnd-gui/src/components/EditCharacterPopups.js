@@ -6,7 +6,7 @@ export function returnCharacterCreatePopup () {
     console.log('create character menu called')
     
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Add a character:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -177,7 +177,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Edit {charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -377,7 +377,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>{charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>

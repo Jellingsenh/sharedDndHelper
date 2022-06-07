@@ -615,7 +615,7 @@ function openDMOptions() {
 }
 
 async function apiDuplicateCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE_2:9001/playermenu/duplicatecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/duplicatecharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName
@@ -636,7 +636,7 @@ async function apiDuplicateCharacter(charName) {
 }
 
 async function apiRemoveCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE_2:9001/playermenu/removecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removecharacter', {
         method: 'POST',
         body: charName
     })
@@ -737,7 +737,7 @@ async function apiLoadCharacterSave(charName) {
 }
 
 function apiDeleteCharacterSave(charName) {
-    var proceed = confirm("Are you sure you want to proceed? This will delete the character save " + charName);
+    var proceed = window.confirm("Are you sure you want to proceed? This will delete the character save " + charName);
     if (proceed) {
         apiDeleteCharacterSaveAsync(charName);
     }
@@ -802,7 +802,7 @@ async function apiLoadGameState(gameName) {
 }
 
 function deleteGameState(gameName) {
-    var proceed = confirm("Are you sure you want to proceed? This will delete the game save " + gameName);
+    var proceed = window.confirm("Are you sure you want to proceed? This will delete the game save " + gameName);
     if (proceed) {
         apiDeleteGameState(gameName);
     }
