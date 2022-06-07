@@ -321,8 +321,8 @@ class SinglePlayerMenu extends React.Component {
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row"}}>
                                         <p>{'{'}&nbsp;</p>
                                         {Object.entries(this.state.characterSaves).map((character) => (
-                                            <div key={character}>
-                                                {character[1]}&nbsp;
+                                            <div key={character} style={{fontSize: '10px', border:'1px solid grey', borderRadius: '5px', padding: '5px'}}>
+                                                {character[1]}
                                             </div>
                                         ))}
                                         <p>{'}'}</p>

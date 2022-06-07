@@ -184,10 +184,8 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                     <TextField color="secondary"
                         focused
                         id="outlined-required"
-                        label="Name"
-                        InputProps={{
-                            readOnly: true,
-                        }}
+                        label="Name (must be unique)"
+                        onChange={addCharName}
                         defaultValue={charName}
                     />&nbsp;&nbsp;
                     <TextField color="secondary"

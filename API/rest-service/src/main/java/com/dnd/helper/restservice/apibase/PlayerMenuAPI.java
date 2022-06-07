@@ -222,8 +222,8 @@ public class PlayerMenuAPI {
             
 			if (getAllCharacterNames() != null) {
 				if (!getAllCharacterNames().contains(name)) {
-					System.out.println("Character " + name + " does not exist.");
-					return new ResponseEntity<> ("Character " + name + " does not exist.", HttpStatus.BAD_REQUEST); // 400
+					System.out.println("Character " + name + " does not exist, creating...");
+					return addCharacter(tempChar);
 				}
 			} else {
 				return new ResponseEntity<> ("No characters found", HttpStatus.INTERNAL_SERVER_ERROR); // 500
