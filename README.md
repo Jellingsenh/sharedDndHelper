@@ -11,26 +11,28 @@ It is best used with real dice & having a DM to oversee everything & tweak chara
 How to compile & run project:
   -> there are 2 main parts: a Maven & Java Spring Boot API server, and a React webapp.
 
-1) to compile & run the server:
-  a) download Maven (https://maven.apache.org/download.cgi)
-  b) set the PATH variable (export PATH=/d/Coding/resources/apache-maven-3.8.4/bin:$PATH) -> verify with "mvn -v"
+1) to run the server:
 
-  c) compile: ./mvnw clean package
-
-  d) run: java -jar target/rest-service-0.0.1-SNAPSHOT.jar
+  a) Download Eclipse
+  b) Select File -> Import Projects -> Existing Maven projects.
+  c) Select the API/rest-service/ folder, Select Enter.
+  d) Once Imported, set up a run configuration (right next to the green arrow). Project = rest-service, Main class = RestServiceApplication.java.
+  e) Now you can just hit Run (the g arrow) to run the server!
 
 2) to run the webapp:
-  a) install npm (sudo apt isntall npm)
-  b) npm start (in the dnd-gui directory)
+
+  a) install React: https://docs.microsoft.com/en-us/windows/dev-environment/javascript/react-on-windows (may be different for Mac)
+  b) There are probably some Material-UI dependencies you will need. You can google the dependency error once the website starts & Stack Overflow will show you what command you need to import the dependency (exs: 'npm install @material-ui/core' & 'npm install @material-ui/icons').
+  c) To run the website, navigate to the dnd-gui directory and enter: 'npm start'
 
 --------------------
 
 Connecting to the webapp (running on http://localhost:3005/):
 Connecting via:
-  Same network: http://192.168.1.65:3005/
-  Different network: http://{your ip}:3005/
+  Same network: http://{your_local_ip_here}:3005/
+  Different network (may require port forwarding): http://{your_network_ip}:3005/
 
-You'll have to find your ip addresess ^ (the top one is ipv4)
+You'll have to find your own ip addresess! (the top one is ipv4)
 
 
 --------------------
