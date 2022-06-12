@@ -382,14 +382,14 @@ public class DndCharacter implements Serializable {
 	/**
 	 * @return the initiative
 	 */
-	public int getInitiative() {
+	public int getInitiativeBonus() {
 		return initiative;
 	}
 
 	/**
 	 * @param initiative the initiative to set
 	 */
-	public void setInitiative(int initiative) {
+	public void setInitiativeBonus(int initiative) {
 		this.initiative = initiative;
 	}
 

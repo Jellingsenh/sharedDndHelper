@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CoPresentIcon from '@mui/icons-material/CoPresent';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import {List, Paper, Stack, Button} from '@mui/material';
 
 class GameModeMenu extends React.Component {
@@ -17,7 +18,7 @@ class GameModeMenu extends React.Component {
   }
 
   getAllPlayers = async () => {
-    const res = await fetch('http://YOUR_URL_HERE:9001/getplayers', {
+    const res = await fetch('http://192.168.1.65:9001/getplayers', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -36,26 +37,28 @@ class GameModeMenu extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to D&D 3.5 Combat Assistant!</h1>
-        <h3>Current players:</h3>
-          <Paper style={{maxHeight: 200, maxWidth: 400, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
-              {Object.entries(this.state.players).map((player) => (
-                  constrctPlayerList(player[0], player[1])
-              ))}
-          </Paper>
-          <Stack spacing={10}>
-            <div className="main-menu-button-group">
-              <h3>Enter the game:</h3>
-                <Stack spacing={2}>
-                  <Button color="secondary" onClick={handleClickSingleplayer} variant="contained" endIcon={<CoPresentIcon />}>
-                    Play as a Dungeon Master
-                  </Button>
-                  {/* <Button color="secondary" onClick={handleClickMultiplayer} variant="contained" endIcon={<PeopleAltIcon />}>
-                    PC
-                  </Button> */}
-                </Stack>
-            </div>
-          </Stack>
+        <div style={{flex: 1, resizeMode: 'contain'}}>
+          <h1>Welcome to D&D 3.5 Combat Assistant!</h1>
+          <h3>Current players:</h3>
+            <Paper style={{maxHeight: 200, maxWidth: 400, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
+                {Object.entries(this.state.players).map((player) => (
+                    constrctPlayerList(player[0], player[1])
+                ))}
+            </Paper>
+            <Stack spacing={10}>
+              <div className="main-menu-button-group">
+                <h3>Enter the game:</h3>
+                  <Stack spacing={2}>
+                    <Button color="secondary" onClick={handleClickSingleplayer} variant="contained" endIcon={<CoPresentIcon />}>
+                      Play as a Dungeon Master
+                    </Button>
+                    {/* <Button color="secondary" onClick={handleClickMultiplayer} variant="contained" endIcon={<PeopleAltIcon />}>
+                      PC
+                    </Button> */}
+                  </Stack>
+              </div>
+            </Stack>
+          </div>
       </div>
     );
   }
@@ -90,7 +93,7 @@ function handleClickSingleplayer() {
 }
 
 async function apiAddPlayer(username, isDm, playerNumber) {
-  const res = await fetch('http://YOUR_URL_HERE:9001/addplayer', {
+  const res = await fetch('http://192.168.1.65:9001/addplayer', {
     method: 'POST',
     body: JSON.stringify({
       username: username,

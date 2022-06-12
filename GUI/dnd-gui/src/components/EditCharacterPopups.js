@@ -1,12 +1,12 @@
 import React from 'react';
 import { Add, SaveAs} from '@mui/icons-material';
-import {Paper, Stack, Button, TextField, FormControlLabel, Checkbox} from '@mui/material';
+import {Paper, Stack, Button, TextField, FormControlLabel, Checkbox, getFormGroupUtilityClass} from '@mui/material';
 
 export function returnCharacterCreatePopup () {
     console.log('create character menu called')
     
     return (
-        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Add a character:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -68,7 +68,7 @@ export function returnCharacterCreatePopup () {
                     />&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharFort}
                         required
@@ -76,7 +76,7 @@ export function returnCharacterCreatePopup () {
                         type="number"
                         label="Fortitude save"
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharRef}
                         required
@@ -84,7 +84,7 @@ export function returnCharacterCreatePopup () {
                         type="number"
                         label="Reflex save"
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharWill}
                         required
@@ -162,7 +162,7 @@ export function returnCharacterCreatePopup () {
                     label="Other"
                 />
 
-                <Button color="primary" onClick={createEnterButton} variant="contained" endIcon={<Add />}>
+                <Button color="deeppurp" style={{color:"white"}} onClick={createEnterButton} variant="contained" endIcon={<Add />}>
                     Create character! 
                 </Button>
             </Stack>
@@ -177,14 +177,15 @@ export function returnCharacterEditPopup (currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Edit {charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="secondary"
                         focused
                         id="outlined-required"
-                        label="Name (must be unique)"
+                        InputLabelProps={{ style: { fontSize: 11 } }}
+                        label="Name (if changed, will create a new character)"
                         onChange={addCharName}
                         defaultValue={charName}
                     />&nbsp;&nbsp;
@@ -219,7 +220,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                         id="outlined-required"
                         type="number"
                         label="Initiative bonus"
-                        defaultValue={currentCharacterFull.initiative}
+                        defaultValue={currentCharacterFull.initiativeBonus}
                     />&nbsp;&nbsp;
                     <TextField color="ninth"
                         focused
@@ -248,7 +249,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                     />&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharFort}
                         required
@@ -257,7 +258,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                         defaultValue={currentCharacterFull.fortSave}
                         label="Fortitude save"
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharRef}
                         required
@@ -266,7 +267,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                         label="Reflex save"
                         defaultValue={currentCharacterFull.refSave}
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         onChange={addCharWill}
                         required
@@ -362,7 +363,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                     defaultValue={currentCharacterFull.otherString}
                 />
 
-                <Button color="primary" onClick={editEnterButton} variant="contained" endIcon={<SaveAs />}>
+                <Button color="deeppurp" style={{color:"white"}} onClick={editEnterButton} variant="contained" endIcon={<SaveAs />}>
                     Submit changes
                 </Button>
             </Stack>
@@ -377,7 +378,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 700, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>{charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -426,7 +427,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         id="outlined-required"
                         type="number"
                         label="Initiative bonus"
-                        defaultValue={currentCharacterFull.initiative}
+                        defaultValue={currentCharacterFull.initiativeBonus}
                     />&nbsp;&nbsp;
                     <TextField color="ninth"
                         focused
@@ -459,7 +460,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                     />&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         InputProps={{
                             readOnly: true,
@@ -469,7 +470,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         defaultValue={currentCharacterFull.fortSave}
                         label="Fortitude save"
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         InputProps={{
                             readOnly: true,
@@ -479,7 +480,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         label="Reflex save"
                         defaultValue={currentCharacterFull.refSave}
                     />&nbsp;&nbsp;
-                    <TextField color="fourth"
+                    <TextField color="editblue"
                         focused
                         InputProps={{
                             readOnly: true,
@@ -638,7 +639,7 @@ function prepopupateValues(currentCharacterFull) {
     tempCharNPC = stringToBoolean(currentCharacterFull.npc)
     tempCharMaxHp = currentCharacterFull.health.toString()
     tempCharCurrentHp = currentCharacterFull.currentHealth.toString()
-    tempCharInit = currentCharacterFull.initiative.toString()
+    tempCharInit = currentCharacterFull.initiativeBonus.toString()
     tempCharAc = currentCharacterFull.armorClass.toString()
     tempCharTouch = currentCharacterFull.touchArmor.toString()
     tempCharFf = currentCharacterFull.flatFooted.toString()
@@ -820,7 +821,7 @@ function editEnterButton() {
 async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/addcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
@@ -865,7 +866,7 @@ async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, i
 async function apiEditCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacter', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,

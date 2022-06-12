@@ -22,11 +22,16 @@ public class GameData implements Serializable {
 //	private Vector<Hex> hexes = null;
 	private Vector<DndCharacter> charactersNotInMap = null;
 	private Vector<DndCharacter> charactersInMap = null;
+	
 	private Map<DndCharacter, Integer> baseCharacterInits = null;
 	private Vector<Map<String, String>> initiativeOrder = null;
+	
 	private String currentCharacterName; // for initiative order
 	private String nextCharacterName; // for initiative order
 	
+	private Vector<TimedEffect> durationEffects;
+	
+	private int extraYears = 0;
 	private int time = 0; // time = seconds since beginning
 	
 	public GameData() {
@@ -39,7 +44,7 @@ public class GameData implements Serializable {
 		if (inMapChars != null) {
 			for (DndCharacter d: inMapChars) { // in map
 				if (Objects.equals(d.getCharName(), characterName)) {
-					System.out.println("Found character " + characterName);
+//					System.out.println("Found character in map: " + characterName);
 					return d;
 				}
 			}
@@ -49,7 +54,7 @@ public class GameData implements Serializable {
 		if (notInMapChars != null) {
 			for (DndCharacter d : notInMapChars) { // not in map
 				if (Objects.equals(d.getCharName(), characterName)) {
-					System.out.println("Found character " + characterName);
+//					System.out.println("Found character not in map: " + characterName);
 					return d;
 				}
 			}
@@ -123,7 +128,7 @@ public class GameData implements Serializable {
 		DndCharacter c = new DndCharacter(name);
 		c.setHealth(maxHealth);
 		c.setCurrentHealth(maxHealth);
-		c.setInitiative(initiative);
+		c.setInitiativeBonus(initiative);
 		c.setArmorClass(ac);
 		c.setTouchArmor(touch);
 		c.setFlatFooted(flatFooted);
@@ -156,7 +161,7 @@ public class GameData implements Serializable {
 		if (editChar != null) {
 			editChar.setHealth(maxHealth);
 			editChar.setCurrentHealth(currHealth);
-			editChar.setInitiative(initiative);
+			editChar.setInitiativeBonus(initiative);
 			editChar.setArmorClass(ac);
 			editChar.setTouchArmor(touch);
 			editChar.setFlatFooted(flatFooted);
@@ -183,7 +188,6 @@ public class GameData implements Serializable {
 					System.out.println("Character Update for " + name + " complete. Updating initiative map");
 					charac.put("hp", Integer.toString(currHealth));
 					charac.put("name", name);
-					charac.put("initTotal", Integer.toString(initiative));
 					charac.put("ac", Integer.toString(ac));
 					charac.put("attack", attacks);
 					charac.put("status", status);
@@ -208,6 +212,49 @@ public class GameData implements Serializable {
 					break;
 				}	
 			}
+		}
+	}
+	
+	// turn order stuff:
+	
+	public boolean setInitialTurns() {
+		// set character orders:
+		if (getInitiativeOrder().size() >= 2) {
+			setCurrentCharacterName(getInitiativeOrder().get(0).get("name"));
+			setNextCharacterName(getInitiativeOrder().get(1).get("name"));
+			return true;
+		} else {
+			return false;
+		}
+	} 
+	
+	public boolean nextTurn() {
+		if (getCurrentCharacterName() == null || getNextCharacterName() == null) {
+			return setInitialTurns();
+		} else {
+			addOneRound(); // time
+			
+			if (getInitiativeOrder().size() >= 2) {
+				
+				setCurrentCharacterName(getNextCharacterName());
+				
+				for (int i = 0; i < getInitiativeOrder().size(); i++) { // update next character
+					if (getInitiativeOrder().get(i).get("name").equals(getNextCharacterName())) { // found the next character
+						if (i+1 == getInitiativeOrder().size()) { // next character needs be the first
+							setNextCharacterName(getInitiativeOrder().get(0).get("name"));
+						} else {
+							setNextCharacterName(getInitiativeOrder().get(i+1).get("name"));
+						}
+						break;
+					}
+				}
+			} else { // size = 2 or less, just flip-flop
+				String tempName = getCurrentCharacterName();
+				setCurrentCharacterName(getNextCharacterName());
+				setNextCharacterName(tempName);
+			}
+
+			return true;
 		}
 	}
 	
@@ -245,7 +292,7 @@ public class GameData implements Serializable {
 		
 		for (DndCharacter d: getBaseCharacterInits().keySet()) {
 			int init = getBaseCharacterInits().get(d);
-			System.out.println(d.getCharName() + "\'s initiative: " + init);
+//			System.out.println(d.getCharName() + "\'s initiative: " + init);
 			
 			if (initiativeVector.isEmpty()) {
 				initiativeVector.add(d);
@@ -254,10 +301,24 @@ public class GameData implements Serializable {
 				boolean placed = false;
 				for (DndCharacter c: initiativeVector) {
 					int initSorted = getBaseCharacterInits().get(c);
-					if (initSorted <= init) {
+					if (initSorted < init) { // sorted = in list, init = being added
 						initiativeVector.add(i, d);
 						placed = true;
 						break;
+					} else if (initSorted == init) { // compare init bonuses 
+						if (c.getInitiativeBonus() <= d.getInitiativeBonus()) {
+							initiativeVector.add(i, d);
+							placed = true;
+							break;
+						} else {
+							if (i+1 == initiativeVector.size()) {
+								break; // will add to the end
+							} else {
+								initiativeVector.add(i+1, d);
+								placed = true;
+								break;
+							}
+						}
 					}
 					i++;
 				}
@@ -280,18 +341,12 @@ public class GameData implements Serializable {
 			initiativeStatsMap.put("name", d.getCharName());
 			initiativeStatsMap.put("initTotal", Integer.toString(getBaseCharacterInits().get(d)));
 			initiativeStatsMap.put("hp", Integer.toString(d.getCurrentHealth()));
-			System.out.println("Mapping " + d.getCharName() + "\'s current health: " + d.getCurrentHealth());
+//			System.out.println("Mapping " + d.getCharName() + "\'s current health: " + d.getCurrentHealth());
 			initiativeStatsMap.put("ac", Integer.toString(d.getArmorClass()));
 			initiativeStatsMap.put("attack", d.attacksString);
 			initiativeStatsMap.put("status", d.statusString);
 			initiativeStatsMap.put("other", d.otherString);
 			initiativeOrderMap.add(initiativeStatsMap);
-		}
-		
-		// set character orders:
-		if (initiativeOrderMap.size() > 2) {
-			setCurrentCharacterName(initiativeOrderMap.get(0).get("name"));
-			setNextCharacterName(initiativeOrderMap.get(1).get("name"));
 		}
 		
 		return initiativeOrderMap;
@@ -314,7 +369,7 @@ public class GameData implements Serializable {
 		Map<DndCharacter, Integer> unrolledInits = new HashMap<>();
 		
 		for (DndCharacter charac: charactersInMap) {
-			unrolledInits.put(charac, charac.getInitiative()); // only add the base init modifier, not a roll
+			unrolledInits.put(charac, charac.getInitiativeBonus()); // only add the base init modifier, not a roll
 		}
 		
 		return unrolledInits;
@@ -325,7 +380,7 @@ public class GameData implements Serializable {
 				
 		for (DndCharacter charac: charactersInMap) {
 			if (charac.isNpc()) {
-				System.out.println("adding npc " + charac.getCharName() + "\'s initiative (base: " + charac.getInitiative() + ").");
+				System.out.println("adding npc " + charac.getCharName() + "\'s initiative (base: " + charac.getInitiativeBonus() + ").");
 				npcInits.put(charac, rollNpcInitiative(charac));
 			}
 		}
@@ -334,7 +389,7 @@ public class GameData implements Serializable {
 	}
 	
 	private int rollNpcInitiative(DndCharacter c) {
-		return c.getInitiative() + getRandomNumber(1, 21);
+		return c.getInitiativeBonus() + getRandomNumber(1, 21);
 	}
 	
 	public void addNewCharacterToInitMapUnrolled(DndCharacter d) {
@@ -345,7 +400,7 @@ public class GameData implements Serializable {
 				return; // do not add twice
 			}
 		}
-
+		
 		System.out.println("Adding " + d.getCharName() + " to the initiative map" );
 		Map<String, String> tempInitiativeMap = new HashMap<>();
 		tempInitiativeMap.put("name", d.getCharName());
@@ -357,12 +412,12 @@ public class GameData implements Serializable {
 		tempInitiativeMap.put("other", d.otherString);
 		
 		getInitiativeOrder().add(tempInitiativeMap);
-
+		
 		if (!getBaseCharacterInits().containsKey(d)) {
 			getBaseCharacterInits().put(d, 0);
 		}
 	}
-
+	
 	public void removeCharacterFromInitMapUnrolled(DndCharacter d) {
 		if (getBaseCharacterInits().containsKey(d)) {
 			getBaseCharacterInits().remove(d);
@@ -384,50 +439,102 @@ public class GameData implements Serializable {
 		this.time = time;
 	}
 	
+	public void resetTime() {
+		setTime(0);
+		this.extraYears = 0;
+	}
+	
+	public void addRounds(int x) {
+		this.time += x*6;
+		
+	}
+
+	public void subtractRounds(int x) {
+		this.time -= x*6;
+	}
+
+	public void addMinutes(int x) {
+		this.time += x*60;
+	}
+
+	public void subtractMinutes(int x) {
+		this.time -= x*60;
+	}
+
+	public void addHours(int x) {
+		this.time += x*3600;
+	}
+
+	public void subtractHours(int x) {
+		this.time -= x*3600;
+	}
+	
+	public void addDays(int x) {
+		this.time += x*86400;
+	}
+
+	public void subtractDays(int x) {
+		this.time -= x*86400;
+	}
+
+	public void addYears(int x) {
+		extraYears += x; // do not add to time bc overflow error after 40+ years (16 bytes I think)
+	}
+
+	public void subtractYears(int x) {
+		if (extraYears > 0) {
+			if (x <= extraYears) { // subtract from extra years
+				extraYears -= x;
+			} else { // subtract all, then subtract leftovers
+				int diff = x - extraYears;
+				extraYears = 0;
+				this.time -= diff*31536000;
+			}
+		} else {
+			this.time -= x*31536000;
+		}
+	}
+	
 	private void addOneRound() {
 		this.time += 6; // 6 seconds
 	}
 	
-	private void addOneHour() {
-		this.time += 3600;
-	}
-	
-	private void addOneDay() {
-		this.time += 86400;
-	}
-	
-	private void addOneYear() {
-		this.time += 31536000;
-	}
-	
-	private String getTimeString() { // return a string of what time it is (converted to New Terra Standard Time)
+	public String getTimeString() { // return a string of what time it is (converted to New Terra Standard Time)
+		updateDurationEffects();
 		int tempTime = getTime();
 		String totalTime = "";
-		if (tempTime > 0) {
-			if (tempTime >= 31536000) { // extract years
+		if (tempTime > 0 || extraYears > 0) {
+			if (tempTime >= 31536000 || extraYears > 0) { // extract years
 				int years = tempTime/31536000;
-				totalTime += "Year: 20" + String.valueOf(years) + " "; // added 200 years with the '20'
+				totalTime += "Year: " + String.valueOf(years + extraYears) + ", ";
 				tempTime = tempTime%31536000;
 			}
 			
 			if (tempTime >= 86400) { // extract days
 				int days = tempTime/86400;
-				totalTime += "Day: " + String.valueOf(days) + " ";
+				totalTime += "Day: " + String.valueOf(days) + ", ";
 				tempTime = tempTime%86400;
 			}
 			
-			if (tempTime >= 86400) { // extract hours
-				int hours = tempTime/86400;
-				totalTime += "Hour: " + String.valueOf(hours) + " ";
-				tempTime = tempTime%86400;
-			}
-			
-			if (tempTime >= 3600) { // extract minutes
-				int minutes = tempTime/3600;
-				totalTime += "Minute: " + String.valueOf(minutes) + " ";
+			if (tempTime >= 3600) { // extract hours
+				int hours = tempTime/3600;
+				totalTime += "Hour: " + String.valueOf(hours) + ", ";
 				tempTime = tempTime%3600;
 			}
+			
+			if (tempTime >= 60) { // extract minutes
+				int minutes = tempTime/60;
+				totalTime += "Minute: " + String.valueOf(minutes) + ", ";
+				tempTime = tempTime%60;
+			}
+			if (tempTime >= 6) {
+				int rounds = tempTime/6;
+				totalTime += "Round: " + String.valueOf(rounds) + ". ";
+			}
+			
+			totalTime = totalTime.substring(0, totalTime.length()-2) + ".";
 		} else {
+			setTime(0);
 			totalTime = "Time has not started yet";
 		}
 		return totalTime;
@@ -450,6 +557,7 @@ public class GameData implements Serializable {
 	}
 
 	public void setCurrentCharacterName(String currentCharacterName) {
+//		System.out.println("Current character: " + currentCharacterName);
 		this.currentCharacterName = currentCharacterName;
 	}
 
@@ -458,15 +566,93 @@ public class GameData implements Serializable {
 	}
 
 	public void setNextCharacterName(String nextCharacterName) {
+//		System.out.println("Next character: " + nextCharacterName);
 		this.nextCharacterName = nextCharacterName;
 	}
 
 	public Map<DndCharacter, Integer> getBaseCharacterInits() {
+		if (baseCharacterInits == null) {
+			baseCharacterInits = new HashMap<>();
+		}
 		return baseCharacterInits;
 	}
 
 	public void setBaseCharacterInits(Map<DndCharacter, Integer> baseCharacterInits) {
 		this.baseCharacterInits = baseCharacterInits;
+	}
+
+	public Vector<TimedEffect> getDurationEffects() {
+		if (durationEffects == null) {
+			durationEffects = new Vector<TimedEffect>();
+		}
+		return durationEffects;
+	}
+
+	public void setDurationEffects(Vector<TimedEffect> durationEffects) {
+		this.durationEffects = durationEffects;
+	}
+	
+	public boolean addDurationEffect(String name, String effect, String targets, int durationRounds) {
+		for (TimedEffect t: getDurationEffects()) {
+			if (t.getName().equals(name)) { // already exists
+				System.out.println("Timed effect " + name + " already exists.");
+				return false;
+			}
+		}
+		
+		TimedEffect durationEffect = new TimedEffect();
+		
+		durationEffect.setName(name);
+		durationEffect.setEffect(effect);
+		durationEffect.setTargets(targets);
+		durationEffect.setTimeLeft(durationRounds); // start out with duration ROunds left
+		
+		//server-side only:
+		durationEffect.setTimeEnd(durationRounds + getRoundsOfTimeAndYears());
+	
+		getDurationEffects().add(durationEffect);
+		return true;
+	}
+	
+	public boolean removeDurationEffect(String effectName) {
+		TimedEffect toBeEnded = null;
+		for (TimedEffect t: getDurationEffects()) {
+			if (t.getName().equals(effectName)) { //found for deletion
+				toBeEnded = t;
+			}
+		}
+		
+		if (toBeEnded == null) {
+			return false;
+		}
+		
+		getDurationEffects().remove(toBeEnded);
+		
+		return true;
+	}
+	
+	private void updateDurationEffects() {
+		int totalRoundsPassed = getRoundsOfTimeAndYears();
+		
+		Vector<TimedEffect> timedOut = new Vector<>();
+		
+		for (TimedEffect t: getDurationEffects()) {
+			if (totalRoundsPassed < t.getTimeEnd()) { // count up
+				t.setTimeLeft(t.getTimeEnd() - totalRoundsPassed);
+			} else { //remove
+				timedOut.add(t);
+			}
+		}
+		
+		for (TimedEffect removeEffect: timedOut) {
+			getDurationEffects().remove(removeEffect);
+		}
+	}
+	
+	private int getRoundsOfTimeAndYears() {
+		int rounds = getTime()/6;
+		int roundYears = extraYears*5256000;
+		return rounds + roundYears;
 	}
 
 }

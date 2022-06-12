@@ -1,7 +1,8 @@
 import React from 'react';
-import { Accessibility, ChildCare, RemoveCircleOutline, PersonAdd, PriorityHigh, AccessTime, SaveAlt, Downloading, PersonRemove, Edit, Upload, Clear } from '@mui/icons-material';
+import { Accessibility, ChildCare, RemoveCircleOutline, PersonAdd, PriorityHigh, AccessTime, SaveAlt, Downloading, PersonRemove, Edit, Upload, Clear, GroupAdd, GroupRemove, PeopleOutline } from '@mui/icons-material';
 import {List, Paper, Stack, Button} from '@mui/material';
 import {returnCharacterCreatePopup, returnCharacterEditPopup} from '../components/EditCharacterPopups.js';
+import {createGroup, loadGroup, deleteGroup, getGroups} from '../components/Groups.js';
 import {enterPcInitiativesPopup, quickRollInitiative} from '../components/InitiativePopups.js';
 
 class SinglePlayerMenu extends React.Component {
@@ -31,6 +32,9 @@ class SinglePlayerMenu extends React.Component {
             modal9Open: false,
             modal10Open: false,
             modal11Open: false,
+            modal12Open: false,
+            modal13Open: false,
+            modal14Open: false,
             gameSaves: {},
             characterSaves: {},
             width: window.innerWidth,
@@ -46,7 +50,9 @@ class SinglePlayerMenu extends React.Component {
         this.getAllCharacters.bind(this);
         this.getAllCharacters();
 
-        this.getCharacterForEdit.bind(this)
+        getGroups();
+
+        this.getCharacterForEdit.bind(this);
     }
 
     componentDidMount() {
@@ -65,7 +71,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -78,7 +84,7 @@ class SinglePlayerMenu extends React.Component {
             console.log(err);
         });
 
-        const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
+        const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -101,7 +107,7 @@ class SinglePlayerMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
+            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -121,7 +127,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadCharacterSaves = () => {
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getcharactersaves', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getcharactersaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -137,7 +143,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadGameSaves = () => {
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getgamesaves', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getgamesaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -153,7 +159,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     saveGameState = () => {
-        var gameName = prompt('Existing game saves:\n{\n  ' + this.state.gameSaves + '\n}\n\nSave game as:');
+        var gameName = prompt('Existing game saves:\n{' + this.state.gameSaves + '}\n\nSave game as:');
         if (gameName != null && gameName != '') {
             apiSaveGameState(gameName);
         }
@@ -166,7 +172,7 @@ class SinglePlayerMenu extends React.Component {
     getPcsForInitiative = () => {
         // populate PCs in map, then open the initiative popup!
 
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getpcs', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getpcs', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -195,7 +201,9 @@ class SinglePlayerMenu extends React.Component {
         if (isMobile) {
             return(
                 <div style={{border: '20px solid transparent'}}>
-                    <h1>Mobile Character Menu</h1>
+                    <div style={{flex: 1, width: '80%', height: '100%', resizeMode: 'contain',}}>
+                        <h1>Mobile Character Menu</h1>
+                    </div>
                 </div>
             );
         } else {
@@ -204,7 +212,9 @@ class SinglePlayerMenu extends React.Component {
 
                     {/* Popups: */}
 
-                    <div className="modal1" style={{display: this.state.modal1Open ? 'block' : 'none', "position": "absolute", "top":"8%", "left":"29%", "zIndex": "1", "backgroundColor": "blue"}}>
+                    {/* <div style={{resizeMode: 'center',}}> */}
+
+                    <div className="modal1" style={{display: this.state.modal1Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
                         <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal1Open ? 
                                 returnCharacterCreatePopup()
@@ -212,15 +222,15 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal1Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "top":"50%", "left":"29%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
+                    <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
                             {this.state.modal2Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to edit: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => {
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => {
                                                     this.setState({
                                                         currentCharacterName: character[1],
                                                     });
@@ -239,7 +249,7 @@ class SinglePlayerMenu extends React.Component {
                                         ))}
                                         {Object.entries(this.state.charactersNotInMap).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => {
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => {
                                                     this.setState({
                                                         currentCharacterName: character[1],
                                                     });
@@ -261,22 +271,22 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal2Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal3Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to duplicate: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDuplicateCharacter(character[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDuplicateCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
                                         ))}
                                         {Object.entries(this.state.charactersNotInMap).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDuplicateCharacter(character[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDuplicateCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -287,22 +297,22 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal3Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal4Open ?
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to remove: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiRemoveCharacter(character[1])}>
+                                                <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiRemoveCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
                                         ))}
                                         {Object.entries(this.state.charactersNotInMap).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiRemoveCharacter(character[1])}>
+                                                <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiRemoveCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -313,32 +323,30 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal4Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal9" style={{display: this.state.modal9Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal9" style={{display: this.state.modal9Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal9Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Existing character saves:</p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row"}}>
-                                        <p>{'{'}&nbsp;</p>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character} style={{fontSize: '10px', border:'1px solid grey', borderRadius: '5px', padding: '5px'}}>
                                                 {character[1]}
                                             </div>
                                         ))}
-                                        <p>{'}'}</p>
                                     </div>
                                     <p>Choose a Character to save:</p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiSaveCharacter(character[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiSaveCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
                                         ))}
                                         {Object.entries(this.state.charactersNotInMap).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiSaveCharacter(character[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiSaveCharacter(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -349,15 +357,15 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal9Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal5" style={{display: this.state.modal5Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal5" style={{display: this.state.modal5Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal5Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a Character save to load: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadCharacterSave(character[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadCharacterSave(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -368,15 +376,15 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal5Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal6" style={{display: this.state.modal6Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal6" style={{display: this.state.modal6Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal6Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a Character save to delete: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDeleteCharacterSave(character[1])}>
+                                                <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDeleteCharacterSave(character[1])}>
                                                     {character[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -387,15 +395,15 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal6Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal7" style={{display: this.state.modal7Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal7" style={{display: this.state.modal7Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal7Open ? 
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a game to load: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.gameSaves).map((game) => (
                                             <div key={game}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadGameState(game[1])}>
+                                                <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadGameState(game[1])}>
                                                     {game[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -406,15 +414,15 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal7Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal8" style={{display: this.state.modal8Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"38%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal8" style={{display: this.state.modal8Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal8Open ?
                                 <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a game to delete: </p>
                                     <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.gameSaves).map((game) => (
                                             <div key={game}>
-                                                <Button variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => deleteGameState(game[1])}>
+                                                <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => deleteGameState(game[1])}>
                                                     {game[1]}
                                                 </Button>&nbsp;&nbsp;
                                             </div>
@@ -425,7 +433,7 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal8Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal10" style={{display: this.state.modal10Open ? 'block' : 'none', "position": "absolute", "top":"8%", "left":"29%", "zIndex": "1", "backgroundColor": "blue"}}>
+                    <div className="modal10" style={{display: this.state.modal10Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
                         <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal10Open ? 
                                 returnCharacterEditPopup(this.state.currentCharacterBeingEdited)
@@ -433,135 +441,167 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal10Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal11" style={{display: this.state.modal11Open ? 'block' : 'none', "position": "absolute", "top":"50%", "zIndex": "1", "backgroundColor": "blue"}}>
-                        <div style={{"position": "fixed", "left":"28%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal11" style={{display: this.state.modal11Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "28%", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal11Open ?
                                 enterPcInitiativesPopup(this.state.PCs)
                             : 'Modal11'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal11Open: false,})}>[close]</Button>
                         </div>
                     </div>
+                    <div className="modal12" style={{display: this.state.modal12Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                            {this.state.modal12Open ? 
+                                createGroup(this.state.characters, this.state.charactersNotInMap)
+                            : 'Modal12'}
+                            <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal12Open: false,})}>[close]</Button>
+                        </div>
+                    </div>
+                    <div className="modal13" style={{display: this.state.modal13Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                            {this.state.modal13Open ? 
+                                loadGroup()
+                            : 'Modal13'}
+                            <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal13Open: false,})}>[close]</Button>
+                        </div>
+                    </div>
+                    <div className="modal14" style={{display: this.state.modal14Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                            {this.state.modal14Open ? 
+                                deleteGroup()
+                            : 'Modal14'}
+                            <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal14Open: false,})}>[close]</Button>
+                        </div>
+                    </div>
+
+                    {/* </div> */}
 
                     {/* Actual buttons below: */}
 
-                    <h1>Dungeon Master Character Menu</h1>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: 40 }}>
-                        <div>
-                            <h3>Current characters (in the map):</h3>
-                            <Paper style={{maxHeight: 300, maxWidth: 400, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
-                                {Object.entries(this.state.characters).map((character) => (
-                                    <List key = {character}>
-                                        <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row"}}>
-                                            <p style={{"color":"black", textTransform: "uppercase", fontSize: "16px", fontWeight: "bold"}}>
-                                                {character[1]}
-                                            </p>
-                                            <p></p>
-                                            <Button  style={{"color":"black",  textTransform: "lowercase"}} onClick={() => removeFromMapV2(character[1])}>
-                                               {" (remove ->)"}
+                    <div style={{resizeMode: 'center',}}>
+                        <h1>Dungeon Master Character Menu</h1>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: 40 }}>
+                            <div>
+                                <h3>Current characters (in the map):</h3>
+                                <Paper style={{maxHeight: 200, maxWidth: 500, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
+                                    {Object.entries(this.state.characters).map((character) => (
+                                        <List key = {character}>
+                                            <Button  style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => removeFromMapV2(character[1])}>
+                                                <div style={{"color":"black",  textTransform: "none", fontSize: "12px", fontWeight: 'bold'}}>{character[1]}</div>
+                                                &nbsp;&nbsp;&nbsp;&nbsp; {"(remove ->)"}
                                             </Button>
-                                        </div>
-                                    </List>
-                                ))}
-                            </Paper>
+                                        </List>
+                                    ))}
+                                </Paper>
+                            </div>
+                            <div>
+                                <h3>Characters not in the map:</h3>
+                                <Paper style={{maxHeight: 200, maxWidth: 500, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
+                                    {Object.entries(this.state.charactersNotInMap).map((character) => (
+                                        <List key = {character}>
+                                            <Button  style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => moveToMapV2(character[1])}>
+                                                {"(<- move to map)"}&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                <div style={{"color":"black",  textTransform: "none", fontSize: "12px", fontWeight: 'bold'}}>{character[1]}</div>
+                                            </Button>
+                                        </List>
+                                    ))}
+                                </Paper>
+                            </div>
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: 40 }}> {/* change to repeat(5, 1fr) */}
+                            <div>
+                                <h2>Character options:</h2>
+                                <Stack spacing={2}>
+                                    <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal1Open: true,})} variant="contained" endIcon={<ChildCare />}>
+                                        Create a character
+                                    </Button>
+                                    <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal3Open: true,})} variant="contained" endIcon={<PersonAdd />}>
+                                        Duplicate a character
+                                    </Button>
+                                    <Button color="editblue" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal2Open: true,})} variant="contained" endIcon={<Edit />}>
+                                        Edit a character
+                                    </Button>
+                                    <Button color="deletered" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => this.setState({modal4Open: true,})} variant="outlined" endIcon={<PersonRemove />}>
+                                        Remove a character
+                                    </Button>
+                                </Stack>
+                            </div>
+                            <div>
+                                <h2>Character save options:</h2>
+                                <Stack spacing={5}>
+                                    <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal9Open: true,})} variant="contained" endIcon={<SaveAlt />}>
+                                        Create a character save
+                                    </Button>
+                                    <Button color="editblue" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal5Open: true,})} variant="contained" endIcon={<Upload />}>
+                                        Load a character save
+                                    </Button>
+                                    <Button color="deletered" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => this.setState({modal6Open: true,})} variant="outlined" endIcon={<Clear />}>
+                                        Delete a character save
+                                    </Button>
+                                </Stack>
+                            </div>
+                            <div>
+                                <h2>Character group options:</h2>
+                                <Stack spacing={5}>
+                                    <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal12Open: true,})} variant="contained" endIcon={<GroupAdd />}>
+                                        Create a group
+                                    </Button>
+                                    <Button color="editblue" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal13Open: true,})} variant="contained" endIcon={<PeopleOutline />}>
+                                        Load a group
+                                    </Button>
+                                    <Button color="deletered" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => this.setState({modal14Open: true,})} variant="outlined" endIcon={<GroupRemove />}>
+                                        Delete a group
+                                    </Button>
+                                </Stack>
+                            </div>
+                            {/* <div>
+                                <h2>Thing options:</h2>
+                                <Stack spacing={3}>
+                                    <Button color="primary" onClick={createThing} variant="contained" endIcon={<AddBox />}>
+                                        Create a thing
+                                    </Button>
+                                    <Button color="primary" onClick={dupeThing} variant="contained" endIcon={<FileCopy />}>
+                                        Duplicate a thing
+                                    </Button>
+                                    <Button color="primary" onClick={deleteThing} variant="contained" endIcon={<EditNotifications />}>
+                                        Edit a thing
+                                    </Button>
+                                    <Button color="primary" onClick={deleteThing} variant="contained" endIcon={<DeleteForever />}>
+                                        Delete a thing
+                                    </Button>
+                                    
+                                </Stack>
+                            </div> */}
+                            <div>
+                                <h2>Game save options:</h2>
+                                <Stack spacing={5}>
+                                    <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={this.saveGameState.bind(this)} variant="contained" endIcon={<SaveAlt />}>
+                                        Save game state
+                                    </Button>
+                                    <Button color="editblue" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal7Open: true,})} variant="contained" endIcon={<Downloading />}>
+                                        Load game state
+                                    </Button>
+                                    <Button color="deletered" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => this.setState({modal8Open: true,})} variant="outlined" endIcon={<RemoveCircleOutline />}>
+                                        Delete game state
+                                    </Button>
+                                </Stack>
+                            </div>
                         </div>
                         <div>
-                            <h3>Characters not in the map:</h3>
-                            <Paper style={{maxHeight: 300, maxWidth: 400, overflow: 'auto', 'backgroundColor':'lightgrey'}}>
-                                {Object.entries(this.state.charactersNotInMap).map((character) => (
-                                    <List key = {character}>
-                                        <div style={{"alignItems":"center", "justifyContent":"center", "display": "flex", "flexDirection": "row"}}>
-                                            <Button  style={{"color":"black", textTransform: "lowercase"}} onClick={() => moveToMapV2(character[1])}>
-                                                {"(<- move to map)"}
-                                            </Button>
-                                            <p></p>
-                                            <p style={{"color":"black", textTransform: "uppercase", fontSize: "16px", fontWeight: "bold"}}>
-                                                {character[1]}
-                                            </p>
-                                        </div>
-                                    </List>
-                                ))}
-                            </Paper>
-                        </div>
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 40 }}> {/* change back to repeat(4, 1fr) */}
-                        <div>
-                            <h2>Character options:</h2>
                             <Stack spacing={1}>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal1Open: true,})} variant="contained" endIcon={<ChildCare />}>
-                                    Create a character
+                                <p></p>
+                                <Button color="dmblue" style={{textTransform: "none", color:'white'}} onClick={openDMOptions} variant="contained" endIcon={<AccessTime />}>
+                                    Dungeon Master options
                                 </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal3Open: true,})} variant="contained" endIcon={<PersonAdd />}>
-                                    Duplicate a character
+                                <Button color="primary" style={{color:"black"}} onClick={this.getPcsForInitiative.bind(this)} variant="contained" endIcon={<PriorityHigh />}>
+                                    Roll initiative
                                 </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal2Open: true,})} variant="contained" endIcon={<Edit />}>
-                                    Edit a character
-                                </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal4Open: true,})} variant="contained" endIcon={<PersonRemove />}>
-                                    Remove a character
+                                <Button color="enterblue" onClick={this.playAsCharacter.bind(this)} variant="contained" endIcon={<Accessibility />}>
+                                    Enter Game
                                 </Button>
                             </Stack>
+        
                         </div>
-                        <div>
-                            <h2>Character save options:</h2>
-                            <Stack spacing={4}>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal9Open: true,})} variant="contained" endIcon={<SaveAlt />}>
-                                    Create a character save
-                                </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal5Open: true,})} variant="contained" endIcon={<Upload />}>
-                                    Load a character save
-                                </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal6Open: true,})} variant="contained" endIcon={<Clear />}>
-                                    Delete a character save
-                                </Button>
-                            </Stack>
-                        </div>
-                        {/* <div>
-                            <h2>Thing options:</h2>
-                            <Stack spacing={3}>
-                                <Button color="primary" onClick={createThing} variant="contained" endIcon={<AddBox />}>
-                                    Create a thing
-                                </Button>
-                                <Button color="primary" onClick={dupeThing} variant="contained" endIcon={<FileCopy />}>
-                                    Duplicate a thing
-                                </Button>
-                                <Button color="primary" onClick={deleteThing} variant="contained" endIcon={<EditNotifications />}>
-                                    Edit a thing
-                                </Button>
-                                <Button color="primary" onClick={deleteThing} variant="contained" endIcon={<DeleteForever />}>
-                                    Delete a thing
-                                </Button>
-                                
-                            </Stack>
-                        </div> */}
-                        <div>
-                            <h2>Game save options:</h2>
-                            <Stack spacing={4}>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={this.saveGameState.bind(this)} variant="contained" endIcon={<SaveAlt />}>
-                                    Save game state
-                                </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal7Open: true,})} variant="contained" endIcon={<Downloading />}>
-                                    Load game state
-                                </Button>
-                                <Button color="secondary" style={{textTransform: "none", fontSize: "12px"}} onClick={() => this.setState({modal8Open: true,})} variant="contained" endIcon={<RemoveCircleOutline />}>
-                                    Delete game state
-                                </Button>
-                            </Stack>
-                        </div>
-                    </div>
-                    <div>
-                        <Stack spacing={1}>
-                            <p></p>
-                            {/* <Button color="sixth" onClick={openDMOptions} variant="contained" endIcon={<AccessTime />}>
-                                Dungeon Master options
-                            </Button> */}
-                            <Button color="third" onClick={this.getPcsForInitiative.bind(this)} variant="contained" endIcon={<PriorityHigh />}>
-                                Roll initiative
-                            </Button>
-                            <Button color="fourth" onClick={this.playAsCharacter.bind(this)} variant="contained" endIcon={<Accessibility />}>
-                                Enter Game
-                            </Button>
-                        </Stack>
-    
                     </div>
                 </div>
             );
@@ -576,9 +616,8 @@ function moveToMapV2(charName) {
 
         // var mapLoc = prompt('Enter map h.e.x. coordinates (ex: \"h:1,e:0,x:-1\", Enter nothing for 0,0,0):');
         // if (mapLoc == null || mapLoc == '') {
-        //     mapLoc = "h0e0x0"
-        // }
         var mapLoc = "h0e0x0"
+        // } // Add map coordinates when map is made
 
         apiMoveCharacterToMap(charName, mapLoc);
     }
@@ -611,11 +650,11 @@ function removeFromMapV2(charName) {
 // }
 
 function openDMOptions() {
-    window.open('/DungeonMasterOptions', '_blank', 'noopener,noreferrer'); // _self for same
+    window.open('/DungeonMasterOptions', '_self', 'noopener,noreferrer'); // _self for same
 }
 
 async function apiDuplicateCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/duplicatecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/duplicatecharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName
@@ -636,7 +675,7 @@ async function apiDuplicateCharacter(charName) {
 }
 
 async function apiRemoveCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/removecharacter', {
         method: 'POST',
         body: charName
     })
@@ -659,7 +698,7 @@ async function apiRemoveCharacter(charName) {
 async function apiMoveCharacterToMap(charName, mapLoc) {
     console.log("map lcation = " + mapLoc)
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/movetomap', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/movetomap', {
         method: 'POST',
         body: charName
     })
@@ -680,7 +719,7 @@ async function apiMoveCharacterToMap(charName, mapLoc) {
 // save data calls:
 
 async function apiRemoveCharacterFromMap(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removefrommap', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/removefrommap', {
         method: 'POST',
         body: charName
     })
@@ -699,7 +738,7 @@ async function apiRemoveCharacterFromMap(charName) {
 }
 
 async function apiSaveCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/savecharacter', {
         method: 'POST',
         body: charName
     })
@@ -718,7 +757,7 @@ async function apiSaveCharacter(charName) {
 }
 
 async function apiLoadCharacterSave(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/loadcharacter', {
         method: 'POST',
         body: charName
     })
@@ -745,7 +784,7 @@ function apiDeleteCharacterSave(charName) {
 
 
 async function apiDeleteCharacterSaveAsync(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/deletecharacter', {
         method: 'POST',
         body: charName
     })
@@ -764,7 +803,7 @@ async function apiDeleteCharacterSaveAsync(charName) {
 }
 
 async function apiSaveGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savegame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/savegame', {
         method: 'POST',
         body: gameName
     })
@@ -783,7 +822,7 @@ async function apiSaveGameState(gameName) {
 }
 
 async function apiLoadGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadgame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/loadgame', {
         method: 'POST',
         body: gameName
     })
@@ -809,7 +848,7 @@ function deleteGameState(gameName) {
 }
 
 async function apiDeleteGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletegame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/deletegame', {
         method: 'POST',
         body: gameName
     })

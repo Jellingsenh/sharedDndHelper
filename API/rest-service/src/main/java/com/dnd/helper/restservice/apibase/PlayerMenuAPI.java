@@ -593,10 +593,10 @@ public class PlayerMenuAPI {
 			
 			while(keys.hasNext()) {
 			    String key = keys.next();
-			    System.out.println("character: " + key); 
+//			    System.out.println("character: " + key); 
 			    if (getAllCharacterNames().contains(key)) {
 		    		int tempNewInit = Integer.valueOf( (String) initJson.get(key) );
-		    		System.out.println("tempNewInit: " + tempNewInit);
+//		    		System.out.println("tempNewInit: " + tempNewInit);
 		    		gameData.updateSingleCharacterInitiative(key, tempNewInit);
 		    	}
 			}
@@ -613,6 +613,209 @@ public class PlayerMenuAPI {
 	        return new ResponseEntity<> (err.toString(), HttpStatus.INTERNAL_SERVER_ERROR); // 500
 	    }		
 	}
+	
+	
+	// timed effects
+	
+	@GetMapping(value="/gettimedeffects")
+	public ResponseEntity<String> getTimedEffectsEndpoint() {
+		try {
+			return new ResponseEntity<> (new ObjectMapper().writeValueAsString(gameData.getDurationEffects()), HttpStatus.OK);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<> (e.toString(), HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}
+	}
+	
+	@PostMapping(value="/addtimedeffect")
+//	{
+//	    "name":"bear strength",
+//	    "effect":"+4 strength",
+//	    "targets": "john,jimp",
+//	    "durationRounds":"1",
+//	}
+	public ResponseEntity<String> addTimedEffectEndpoint(@RequestBody String timedEffect) {
+		try {
+			
+			JSONObject effectJson = new JSONObject(timedEffect);
+			String effectName = (String) effectJson.get("name");
+			String effect = (String) effectJson.get("effect");
+			String effectTargets = (String) effectJson.get("targets");
+			int effectDuration = (Integer) effectJson.get("durationRounds");
+			
+			if (gameData.addDurationEffect(effectName, effect, effectTargets, effectDuration)) {
+				return new ResponseEntity<> (new ObjectMapper().writeValueAsString(gameData.getDurationEffects()), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<> ("Effect " + effectName + " already exists", HttpStatus.BAD_REQUEST);
+			}
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<> (e.toString(), HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}
+	}
+	
+	@PostMapping(value="/removetimedeffect")
+//	{
+//	    "bear strength"
+//	}
+	public ResponseEntity<String> endTimedEffectEndpoint(@RequestBody String timedEffect) {
+		try {
+			if (gameData.removeDurationEffect(timedEffect)) {
+				return new ResponseEntity<> (new ObjectMapper().writeValueAsString(gameData.getDurationEffects()), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<> ("Effect " + timedEffect + " does not exist", HttpStatus.BAD_REQUEST);
+			}
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new ResponseEntity<> (e.toString(), HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}
+	}
+	
+	// turns:
+	
+	@GetMapping(value="/gettimestring")
+	public ResponseEntity<String> getTimeStrEndpoint() {
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/setupturns")
+	public ResponseEntity<String> setupTurnsEndpoint() {
+		
+		if (gameData.setInitialTurns()) {
+			return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<> ("Error going to next turn", HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}	
+	}
+	
+	@GetMapping(value="/nextturn")
+	public ResponseEntity<String> nextTurnEndpoint() {
+		
+		if (gameData.nextTurn()) {
+			return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<> ("Error going to next turn", HttpStatus.INTERNAL_SERVER_ERROR); // 500
+		}	
+	}
+	
+	@GetMapping(value="/getcurrentcharacter")
+	public ResponseEntity<String> getCurrentCharacterEndpoint() {
+		return new ResponseEntity<> (gameData.getCurrentCharacterName(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getnextcharacter")
+	public ResponseEntity<String> getNextCharacterEndpoint() {
+		return new ResponseEntity<> (gameData.getNextCharacterName(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/resettime")
+	public ResponseEntity<String> resetTimeEndpoint() {
+		gameData.resetTime();
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/addrounds")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> addRoundsEndpoint(@RequestBody String rounds) {
+		gameData.addRounds(Integer.valueOf(rounds));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/subtractrounds")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> subtractRoundsEndpoint(@RequestBody String rounds) {
+		gameData.subtractRounds(Integer.valueOf(rounds));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/addminutes")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> addMinutesEndpoint(@RequestBody String minutes) {
+		gameData.addMinutes(Integer.valueOf(minutes));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/subtractminutes")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> subtractMinutesEndpoint(@RequestBody String minutes) {
+		gameData.subtractMinutes(Integer.valueOf(minutes));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/addhours")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> addHoursEndpoint(@RequestBody String hours) {
+		gameData.addHours(Integer.valueOf(hours));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/subtracthours")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> subtractHoursEndpoint(@RequestBody String hours) {
+		gameData.subtractHours(Integer.valueOf(hours));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/adddays")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> addDaysEndpoint(@RequestBody String days) {
+		gameData.addDays(Integer.valueOf(days));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/subtractdays")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> subtractDaysEndpoint(@RequestBody String days) {
+		gameData.subtractDays(Integer.valueOf(days));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/addyears")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> addYearsEndpoint(@RequestBody String years) {
+		gameData.addYears(Integer.valueOf(years));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/subtractyears")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> subtractYearsEndpoint(@RequestBody String years) {
+		gameData.subtractYears(Integer.valueOf(years));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/settime")
+//	{
+//		"0"
+//	}
+	public ResponseEntity<String> setTimeEndpoint(@RequestBody String seconds) {
+		gameData.setTime(Integer.valueOf(seconds));
+		return new ResponseEntity<> (gameData.getTimeString(), HttpStatus.OK);
+	}
+	
+	// saves:
 	
 	@PostMapping(value = "/savecharacter") 
 //	{
@@ -662,6 +865,78 @@ public class PlayerMenuAPI {
 			return new ResponseEntity<> (charName + " deletion error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// groups:
+	
+	@PostMapping(value = "/savegroup") 
+//	{
+//	  "groupName":"groupName",
+//	  "character1": "john",
+//	  "character2": "jimp"
+//  }
+	public ResponseEntity<String> saveGroupEndpoint(@RequestBody String groupBody) {
+		Vector<String> charNames = new Vector<String>();
+		String groupName = "unnamedGroup";
+        
+		JSONObject groupJson = new JSONObject(groupBody);
+		Iterator<String> keys = groupJson.keys();
+		
+		while(keys.hasNext()) {
+		    String key = keys.next();
+//		    System.out.println("key: " + key);
+		    if (key.equals("groupName")) {
+		    	groupName = (String) groupJson.get(key);
+		    } else {
+		    	String charName = (String) groupJson.get(key);
+//		    	System.out.println("character: " + charName);
+		    	charNames.add(charName);
+		    }
+		}
+        
+		if (saveGroupToFile(groupName, charNames)) {
+			return new ResponseEntity<> (groupName + " saved", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<> (groupName + " saving error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping(value = "/getgroupsaves")
+	public ResponseEntity<String> loadSavedGroupNamesEndpoint() {
+		
+		try {
+			return new ResponseEntity<> (new ObjectMapper().writeValueAsString(loadGroupNames()), HttpStatus.OK);
+		} catch (JsonProcessingException e) {
+			return new ResponseEntity<> ("Error getting game saves", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping(value = "/loadgroup") // loading adds character not in map
+//	{
+//	  "clarences"
+//  }
+	public ResponseEntity<String> loadGroupEndpoint(@RequestBody String groupName) {
+		
+		if (loadGroupFromFile(groupName)) {
+			return new ResponseEntity<> (groupName + " loaded (added not in the map)", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<> (groupName + " loading error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping(value = "/deletegroup") 
+//	{
+//	  "bens"
+//  }
+	public ResponseEntity<String> deleteGroupEndpoint(@RequestBody String groupName) {
+		
+		if (deleteGroupFile(groupName)) {
+			return new ResponseEntity<> (groupName + " deleted", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<> (groupName + " deletion error", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// states:
 	
 	@PostMapping(value = "/savegame") 
 //	{
@@ -778,10 +1053,10 @@ public class PlayerMenuAPI {
 	        for (int i = 0; i < listOfFiles.length; i++) {
 	        	  if (listOfFiles[i].isFile()) {
 	        		  String charFileName = listOfFiles[i].getName();
-	        	    System.out.println("File " + charFileName);
+//	        	    System.out.println("File " + charFileName);
 	        	    charList.add(charFileName.substring(0, charFileName.length()-4));
 	        	  } else if (listOfFiles[i].isDirectory()) {
-	        	    System.out.println("Directory " + listOfFiles[i].getName());
+//	        	    System.out.println("Directory " + listOfFiles[i].getName());
 	        	  }
 	        }
         }
@@ -855,6 +1130,98 @@ public class PlayerMenuAPI {
 		return true; // return true if success
 	}
 	
+	// groups:
+	
+	public Vector<String> loadGroupNames() {  // GROUPS are just lists of character names!
+		Vector<String> charList = new Vector<>();
+		
+        File f = new File("gameSaves/Groups");
+        File[] listOfFiles = f.listFiles();
+        
+        if (listOfFiles != null) {
+	        for (int i = 0; i < listOfFiles.length; i++) {
+	        	  if (listOfFiles[i].isFile()) {
+	        		  String groupFileName = listOfFiles[i].getName();
+//	        	    System.out.println("File " + charFileName);
+	        	    charList.add(groupFileName.substring(0, groupFileName.length()-4));
+	        	  } else if (listOfFiles[i].isDirectory()) {
+//	        	    System.out.println("Directory " + listOfFiles[i].getName());
+	        	  }
+	        }
+        }
+		
+		return charList;
+	}
+
+	public boolean loadGroupFromFile(String groupName) {
+		try {	
+			String filename = "gameSaves/Groups/" + groupName + ".txt";
+			FileInputStream file = new FileInputStream(filename);
+	        ObjectInputStream in = new ObjectInputStream(file);
+	          
+	        // Method for deserialization of object
+	        Vector<String> loadedCharacters = (Vector<String>) in.readObject();
+	          
+	        in.close();
+	        file.close();
+	        
+	        for (String charName: loadedCharacters) {
+	        	loadCharacterFromFile(charName);
+	        }
+	        
+	        System.out.println("Loaded group: " + groupName);
+	        return true;
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+
+	}
+	
+	public boolean saveGroupToFile(String groupName, Vector<String> saveGroup) {
+
+		try {	
+			
+			for (String name: saveGroup) {
+				saveCharacterToFile(gameData.getCharacterInAnyMap(name));
+			}
+			
+			String filename = groupName + ".txt";
+			String filepath = "gameSaves/Groups/" + filename;
+			FileOutputStream fileOut = new FileOutputStream(filepath);
+	        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(saveGroup);
+		
+	        objectOut.close();
+	        System.out.println("Group succesfully saved to file: " + filename);
+	        return true;
+        
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+		
+	}
+	
+	public boolean deleteGroupFile(String charName) {
+		
+		File myObj = new File("gameSaves/Groups/" + charName + ".txt"); 
+	    if (myObj.delete()) { 
+	      System.out.println("Deleted the group file: " + myObj.getName());
+	    } else {
+	      System.out.println("Failed to delete the group file.");
+	      return false;
+	    } 
+		
+		return true; // return true if success
+	}
+	
+	// states:
+	
 	public Vector<String> loadSavedGameNames() {
 		Vector<String> gamesList = new Vector<>();
 		
@@ -865,10 +1232,10 @@ public class PlayerMenuAPI {
 	        for (int i = 0; i < listOfFiles.length; i++) {
 	        	  if (listOfFiles[i].isFile()) {
 	        		  String gameFileName = listOfFiles[i].getName();
-	        	    System.out.println("File " + gameFileName);
+//	        	    System.out.println("File " + gameFileName);
 	        	    gamesList.add(gameFileName.substring(0, gameFileName.length()-4));
 	        	  } else if (listOfFiles[i].isDirectory()) {
-	        	    System.out.println("Directory " + listOfFiles[i].getName());
+//	        	    System.out.println("Directory " + listOfFiles[i].getName());
 	        	  }
 	        }
         }

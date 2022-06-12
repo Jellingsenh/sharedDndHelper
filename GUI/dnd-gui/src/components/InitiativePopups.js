@@ -23,7 +23,7 @@ export function enterPcInitiativesPopup(pcList) {
                         </div>
                     ))}
                 </div>
-                <Button color="third" style={{textTransform: "none", fontSize: "12px"}} onClick={() => constructPcInitNamesList(pcList.length)} variant="contained" endIcon={<SubdirectoryArrowRight />}>
+                <Button color="primary" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => constructPcInitNamesList(pcList.length)} variant="contained" endIcon={<SubdirectoryArrowRight />}>
                     Submit initiatives
                 </Button>
             </Stack>
@@ -61,7 +61,7 @@ export function editAllInitiativesPopup(charList) { // charList is a map with in
                         </div>
                     ))}
                 </div>
-                <Button color="fifth" style={{textTransform: "none", fontSize: "12px"}} onClick={() => constructAllInitNamesList(charList.length)} variant="contained" endIcon={<SubdirectoryArrowRight />}>
+                <Button color="primary" style={{textTransform: "none", fontSize: "12px", color:'black'}} onClick={() => constructAllInitNamesList(charList.length)} variant="contained" endIcon={<SubdirectoryArrowRight />}>
                     Submit initiatives
                 </Button>
             </Stack>
@@ -159,7 +159,7 @@ async function apiRollInitiative(initNameList) {
 
     console.log("PC initiative list: ", initNameList);
     
-    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/rollinitiative', {
+    const res = fetch('http://192.168.1.65:9001/playermenu/rollinitiative', {
         method: 'POST',
         body: initNameList
     })
@@ -169,6 +169,7 @@ async function apiRollInitiative(initNameList) {
             console.log('Error rolling initiative:', response.charName);
         } else {
             console.log('Initiative response:', response);
+            apiSetUpTurns();
         }
     })
     .catch(err => {
@@ -179,6 +180,15 @@ async function apiRollInitiative(initNameList) {
     window.location.reload(false);
 }
 
+async function apiSetUpTurns() {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/setupturns', {
+        method: 'GET',
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
 async function apiUpdateInitiative(initNamesList) {
     if (initNamesList.length ==0 ) {
         initNamesList = "{}";
@@ -186,7 +196,7 @@ async function apiUpdateInitiative(initNamesList) {
 
     console.log("character initiative list: ", initNamesList);
     
-    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/changeinitiative', {
+    const res = fetch('http://192.168.1.65:9001/playermenu/changeinitiative', {
         method: 'POST',
         body: initNamesList
     })

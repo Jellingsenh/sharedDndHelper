@@ -3,47 +3,54 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  BrowserRouter,
-  Routes,
-  Switch,
-  Route
-} from "react-router-dom";
-import { amber, blue, blueGrey, brown, deepPurple, green, lightBlue, red} from '@mui/material/colors';
+import { amber, blue, blueGrey, cyan, deepOrange, deepPurple, green, indigo, orange, red} from '@mui/material/colors';
 import {ThemeProvider, createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: deepPurple[400],
+    primary: { // roll init color
+      main: red[900],
     },
-    secondary: {
+    secondary: { // create character color
       main: green[800],
     },
-    third: {
+    third: { // health color
       main: red[400],
     },
-    fourth: {
-      main: blue[400],
+    deeppurp: { // submit edits buttons
+      main: deepPurple[400],
     },
-    fifth: {
-      main: lightBlue[400],
+    editblue: {
+      main: blue[500],
     },
-    sixth: {
-      main: blueGrey[300],
+    enterblue: {
+      main: '#2979FF',
     },
-    seventh: {
-      main: brown[400],
+    dmblue: {
+      main: indigo[800],
     },
-    eighth: {
+    deletered: {
+      main: '#FF1744',
+    },
+    currentturn: {
+      main: '#FFC107'
+    },
+    nextturn: {
+      main: '#AB47BC',
+    },
+    eighth: { // soft delete red
       main: red[200],
     },
-    ninth: {
-      main: lightBlue[200],
+    sixth: { // other colors / misc
+      main: blueGrey[300],
     },
-    tenth: {
-      main: amber[400],
+    seventh: { // armor class color
+      main: deepOrange[900],
     },
+    ninth: { // init speed color
+      main: cyan[200],
+    },
+
   },
 });
 ReactDOM.render( 

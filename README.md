@@ -41,11 +41,12 @@ How to compile & run project:
 Connecting to the webapp (running on http://localhost:3005/):
 Connecting via:
   Same network: http://{your_local_ip_here}:3005/
-  Different network (may require port forwarding): http://{your_network_ip}:3005/
+  Different network (may require port forwarding): http://{your_network_ip_here}:3005/
 
 You'll have to find your own ip addresess! (the top one is ipv4)
 
 
 --------------------
 
-You will also have to replace all of the instances of YOUR_URL_HERE with your own ip address!!
+You will also have to replace all of the instances of YOUR_URL_HERE in the React code with your own ipv4 address!! 
+(I used VScode's find and replace)
