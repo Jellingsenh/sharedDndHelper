@@ -5,7 +5,7 @@ import {Paper, Stack, Button, TextField, FormControlLabel, Checkbox, getFormGrou
 var groups = {};
 
 export function getGroups() {
-    const res = fetch('http://192.168.1.65:9001/playermenu/getgroupsaves', {
+    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getgroupsaves', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -123,7 +123,7 @@ async function apiCreateGroup(groupName) {
     groupBody += ' }';
     console.log('groupBody:', groupBody);
 
-    const res = await fetch('http://192.168.1.65:9001/playermenu/savegroup', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savegroup', {
         method: 'POST',
         body: groupBody
     })
@@ -144,7 +144,7 @@ async function apiCreateGroup(groupName) {
 }
 
 async function apiLoadGroup(groupName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/loadgroup', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadgroup', {
         method: 'POST',
         body: groupName
     })
@@ -170,7 +170,7 @@ function apiDeleteGroup(groupName) {
 }
 
 async function apiDeleteGroupAsync(groupName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/deletegroup', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletegroup', {
         method: 'POST',
         body: groupName
     })
