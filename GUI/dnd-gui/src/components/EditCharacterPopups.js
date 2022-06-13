@@ -6,12 +6,13 @@ export function returnCharacterCreatePopup () {
     console.log('create character menu called')
     
     return (
-        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 800, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Add a character:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         onChange={addCharName}
                         required
                         id="outlined-required"
@@ -19,115 +20,129 @@ export function returnCharacterCreatePopup () {
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         onChange={addCharRace}
                         required
                         id="outlined-required"
                         label="Race"
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
+                        style={{width: '100%'}}
+                        onChange={addCharStatus}
+                        label="Status"
+                    />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <FormControlLabel control={<Checkbox color="eighth" defaultChecked={false} onChange={addCharNPC}/>} label="NPC" />
+                </div>
+                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    <TextField color="secondary"
                         focused
+                        style={{width: '6%'}}
                         onChange={addCharSize}
                         required
                         id="outlined-required"
                         label="Size"
                     />&nbsp;&nbsp;
-                    <TextField color="secondary"
-                        onChange={addCharStatus}
-                        label="Status"
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="ninth"
-                        focused
-                        onChange={addCharInit}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Initiative bonus"
-                    />&nbsp;&nbsp;
-                    <TextField color="ninth"
-                        focused
-                        onChange={addCharSpeed}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Speed"
-                    />&nbsp;&nbsp;
                     <TextField color="third"
                         focused
+                        style={{width: '8%'}}
                         onChange={addCharMaxHp}
                         required
                         id="outlined-required"
                         type="number"
                         label="Max Health"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="third"
                         onChange={addCharCurrHp}
+                        style={{width: '12%'}}
                         type="number"
                         label="Current Health"
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    />&nbsp;&nbsp;
+                    <TextField color="ninth"
+                        focused
+                        style={{width: '9.5%'}}
+                        onChange={addCharInit}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Initiative bonus"
+                    />&nbsp;
+                    <TextField color="ninth"
+                        focused
+                        style={{width: '8%'}}
+                        onChange={addCharSpeed}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Speed (feet)"
+                    />&nbsp;&nbsp;
+                    <TextField color="eighth"
+                        focused
+                        style={{width: '6%'}}
+                        onChange={addCharGrapple}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Grapple"
+                    />&nbsp;&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '7.5%'}}
+                        InputLabelProps={{ style: { fontSize: 12 } }}
                         onChange={addCharFort}
                         required
                         id="outlined-required"
                         type="number"
                         label="Fortitude save"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '7.5%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         onChange={addCharRef}
                         required
                         id="outlined-required"
                         type="number"
                         label="Reflex save"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '7.5%'}}
                         onChange={addCharWill}
                         required
                         id="outlined-required"
                         type="number"
                         label="Will save"
                     />&nbsp;&nbsp;
-                    <TextField color="eighth"
-                        focused
-                        onChange={addCharGrapple}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Grapple"
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="seventh"
                         focused
+                        style={{width: '7.5%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         onChange={addCharAc}
                         required
                         id="outlined-required"
                         type="number"
                         label="Armor class"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="seventh"
                         focused
+                        style={{width: '7.5%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         onChange={addCharTouch}
                         required
                         id="outlined-required"
                         type="number"
                         label="Touch armor"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="seventh"
                         focused
+                        style={{width: '7.5%'}}
+                        InputLabelProps={{ style: { fontSize: 11 } }}
                         onChange={addCharFf}
                         required
                         id="outlined-required"
                         type="number"
                         label="Flat-footed armor"
-                    />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <FormControlLabel control={<Checkbox color="eighth" defaultChecked={false} onChange={addCharNPC}/>} label="NPC" />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    />
                 </div>
             
                 <TextField fullWidth color="eighth"
@@ -177,12 +192,13 @@ export function returnCharacterEditPopup (currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{maxHeight: 800, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Edit {charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         id="outlined-required"
                         InputLabelProps={{ style: { fontSize: 11 } }}
                         label="Name (if changed, will create a new character)"
@@ -191,6 +207,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         onChange={addCharRace}
                         required
                         id="outlined-required"
@@ -199,76 +216,96 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
+                        onChange={addCharStatus}
+                        label="Status"
+                        defaultValue={currentCharacterFull.statusString}
+                    />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <FormControlLabel control={<Checkbox color="eighth" defaultChecked={stringToBoolean(currentCharacterFull.npc)} onChange={addCharNPC}/>} label="NPC" />
+                </div>
+                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    <TextField color="secondary"
+                        focused
+                        style={{width: '6%'}}
                         onChange={addCharSize}
                         required
                         id="outlined-required"
                         label="Size"
                         defaultValue={currentCharacterFull.size}
                     />&nbsp;&nbsp;
-                    <TextField color="secondary"
-                        focused
-                        onChange={addCharStatus}
-                        label="Status"
-                        defaultValue={currentCharacterFull.statusString}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="ninth"
-                        focused
-                        onChange={addCharInit}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Initiative bonus"
-                        defaultValue={currentCharacterFull.initiativeBonus}
-                    />&nbsp;&nbsp;
-                    <TextField color="ninth"
-                        focused
-                        onChange={addCharSpeed}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Speed"
-                        defaultValue={currentCharacterFull.speed}
-                    />&nbsp;&nbsp;
                     <TextField color="third"
                         focused
+                        style={{width: '8%'}}
                         onChange={addCharMaxHp}
                         required
                         id="outlined-required"
                         type="number"
                         label="Max Health"
                         defaultValue={currentCharacterFull.health}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="third"
                         focused
+                        style={{width: '12%'}}
                         onChange={addCharCurrHp}
                         type="number"
                         label="Current Health"
                         defaultValue={currentCharacterFull.currentHealth}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    />&nbsp;&nbsp;
+                    <TextField color="ninth"
+                        focused
+                        style={{width: '9.5%'}}
+                        onChange={addCharInit}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Initiative bonus"
+                        defaultValue={currentCharacterFull.initiativeBonus}
+                    />&nbsp;
+                    <TextField color="ninth"
+                        focused
+                        style={{width: '8%'}}
+                        onChange={addCharSpeed}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Speed (feet)"
+                        defaultValue={currentCharacterFull.speed}
+                    />&nbsp;&nbsp;
+                    <TextField color="eighth"
+                        focused
+                        style={{width: '6%'}}
+                        onChange={addCharGrapple}
+                        required
+                        id="outlined-required"
+                        type="number"
+                        label="Grapple"
+                        defaultValue={currentCharacterFull.grapple}
+                    />&nbsp;&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '8%'}}
+                        InputLabelProps={{ style: { fontSize: 12 } }}
                         onChange={addCharFort}
                         required
                         id="outlined-required"
                         type="number"
                         defaultValue={currentCharacterFull.fortSave}
                         label="Fortitude save"
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '8%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         onChange={addCharRef}
                         required
                         id="outlined-required"
                         type="number"
                         label="Reflex save"
                         defaultValue={currentCharacterFull.refSave}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="editblue"
                         focused
+                        style={{width: '8%'}}
                         onChange={addCharWill}
                         required
                         id="outlined-required"
@@ -276,46 +313,39 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                         label="Will save"
                         defaultValue={currentCharacterFull.willSave}
                     />&nbsp;&nbsp;
-                    <TextField color="eighth"
-                        focused
-                        onChange={addCharGrapple}
-                        required
-                        id="outlined-required"
-                        type="number"
-                        label="Grapple"
-                        defaultValue={currentCharacterFull.grapple}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="seventh"
                         focused
+                        style={{width: '8%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         onChange={addCharAc}
                         required
                         id="outlined-required"
                         type="number"
                         label="Armor class"
                         defaultValue={currentCharacterFull.armorClass}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField
                         onChange={addCharTouch}
                         required color="seventh"
                         focused
+                        style={{width: '8%'}}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         id="outlined-required"
                         type="number"
                         label="Touch armor"
                         defaultValue={currentCharacterFull.touchArmor}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="seventh"
                         focused
+                        style={{width: '8%'}}
+                        InputLabelProps={{ style: { fontSize: 11 } }}
                         onChange={addCharFf}
                         required
                         id="outlined-required"
                         type="number"
                         label="Flat-footed armor"
                         defaultValue={currentCharacterFull.flatFooted}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <FormControlLabel control={<Checkbox color="eighth" defaultChecked={stringToBoolean(currentCharacterFull.npc)} onChange={addCharNPC}/>} label="NPC" />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    />
                 </div>
             
                 <TextField fullWidth color="eighth"
@@ -378,12 +408,13 @@ export function returnCharacterViewPopup(currentCharacterFull) {
     prepopupateValues(currentCharacterFull)
 
     return (
-        <Paper style={{maxHeight: 750, maxWidth: 1000, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{height: 780, overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>{charName}:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         id="outlined-required"
                         label="Name"
                         InputProps={{
@@ -393,6 +424,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -402,6 +434,28 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                     />&nbsp;&nbsp;
                     <TextField color="secondary"
                         focused
+                        style={{width: '100%'}}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        label="Status"
+                        defaultValue={currentCharacterFull.statusString}
+                    />&nbsp;&nbsp;
+                    <TextField color="eighth"
+                        focused
+                        style={{width: '20%'}}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        id="outlined-required"
+                        label="NPC"
+                        defaultValue={currentCharacterFull.npc}
+                    />
+                </div>
+                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    <TextField color="secondary"
+                        focused
+                        style={{width: '6'}}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -409,16 +463,6 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         label="Size"
                         defaultValue={currentCharacterFull.size}
                     />&nbsp;&nbsp;
-                    <TextField color="secondary"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        label="Status"
-                        defaultValue={currentCharacterFull.statusString}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
                     <TextField color="ninth"
                         focused
                         InputProps={{
@@ -428,7 +472,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Initiative bonus"
                         defaultValue={currentCharacterFull.initiativeBonus}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="ninth"
                         focused
                         InputProps={{
@@ -448,7 +492,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Max Health"
                         defaultValue={currentCharacterFull.health}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="third"
                         focused
                         InputProps={{
@@ -457,38 +501,6 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Current Health"
                         defaultValue={currentCharacterFull.currentHealth}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
-                    <TextField color="editblue"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        id="outlined-required"
-                        type="number"
-                        defaultValue={currentCharacterFull.fortSave}
-                        label="Fortitude save"
-                    />&nbsp;&nbsp;
-                    <TextField color="editblue"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        id="outlined-required"
-                        type="number"
-                        label="Reflex save"
-                        defaultValue={currentCharacterFull.refSave}
-                    />&nbsp;&nbsp;
-                    <TextField color="editblue"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        id="outlined-required"
-                        type="number"
-                        label="Will save"
-                        defaultValue={currentCharacterFull.willSave}
                     />&nbsp;&nbsp;
                     <TextField color="eighth"
                         focused
@@ -499,9 +511,37 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Grapple"
                         defaultValue={currentCharacterFull.grapple}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div style={{"display": "flex", "flexDirection": "row"}}>
+                    />&nbsp;&nbsp;
+                    <TextField color="editblue"
+                        focused
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        id="outlined-required"
+                        type="number"
+                        defaultValue={currentCharacterFull.fortSave}
+                        label="Fortitude save"
+                    />&nbsp;
+                    <TextField color="editblue"
+                        focused
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        id="outlined-required"
+                        type="number"
+                        label="Reflex save"
+                        defaultValue={currentCharacterFull.refSave}
+                    />&nbsp;
+                    <TextField color="editblue"
+                        focused
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        id="outlined-required"
+                        type="number"
+                        label="Will save"
+                        defaultValue={currentCharacterFull.willSave}
+                    />&nbsp;&nbsp;
                     <TextField color="seventh"
                         focused
                         InputProps={{
@@ -511,7 +551,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Armor class"
                         defaultValue={currentCharacterFull.armorClass}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField
                         InputProps={{
                             readOnly: true,
@@ -522,7 +562,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Touch armor"
                         defaultValue={currentCharacterFull.touchArmor}
-                    />&nbsp;&nbsp;
+                    />&nbsp;
                     <TextField color="seventh"
                         focused
                         InputProps={{
@@ -532,16 +572,7 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Flat-footed armor"
                         defaultValue={currentCharacterFull.flatFooted}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
-                    <TextField color="eighth"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        id="outlined-required"
-                        label="NPC"
-                        defaultValue={currentCharacterFull.npc}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;
+                    />
                 </div>
             
                 <TextField fullWidth color="eighth"
@@ -821,7 +852,7 @@ function editEnterButton() {
 async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/addcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
@@ -866,7 +897,7 @@ async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, i
 async function apiEditCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacter', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,

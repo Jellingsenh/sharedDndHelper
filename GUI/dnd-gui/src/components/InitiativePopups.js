@@ -6,7 +6,7 @@ export function enterPcInitiativesPopup(pcList) {
     console.log('Calling roll initiative for PCs: ' + pcList)
     
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Enter inititaive totals:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -42,7 +42,7 @@ export function editAllInitiativesPopup(charList) { // charList is a map with in
     // ));
 
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white'}}>
+        <Paper style={{overflow: 'auto', 'backgroundColor':'white'}}>
             <p style={{fontSize: "18px", fontWeight: "bold"}}>Enter new initiatives:</p>
             <Stack spacing={2} style={{border: '20px solid white', borderRadius: '5px'}}>
                 <div style={{"display": "flex", "flexDirection": "row"}}>
@@ -159,7 +159,7 @@ async function apiRollInitiative(initNameList) {
 
     console.log("PC initiative list: ", initNameList);
     
-    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/rollinitiative', {
+    const res = fetch('http://192.168.1.65:9001/playermenu/rollinitiative', {
         method: 'POST',
         body: initNameList
     })
@@ -181,7 +181,7 @@ async function apiRollInitiative(initNameList) {
 }
 
 async function apiSetUpTurns() {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/setupturns', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/setupturns', {
         method: 'GET',
     })
     .catch(err => {
@@ -196,7 +196,7 @@ async function apiUpdateInitiative(initNamesList) {
 
     console.log("character initiative list: ", initNamesList);
     
-    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/changeinitiative', {
+    const res = fetch('http://192.168.1.65:9001/playermenu/changeinitiative', {
         method: 'POST',
         body: initNamesList
     })

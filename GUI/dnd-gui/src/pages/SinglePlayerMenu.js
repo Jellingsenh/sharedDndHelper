@@ -71,7 +71,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -84,7 +84,7 @@ class SinglePlayerMenu extends React.Component {
             console.log(err);
         });
 
-        const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
+        const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -107,7 +107,7 @@ class SinglePlayerMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
+            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -127,7 +127,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadCharacterSaves = () => {
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getcharactersaves', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getcharactersaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -143,7 +143,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadGameSaves = () => {
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getgamesaves', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getgamesaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -172,7 +172,7 @@ class SinglePlayerMenu extends React.Component {
     getPcsForInitiative = () => {
         // populate PCs in map, then open the initiative popup!
 
-        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getpcs', {
+        const res = fetch('http://192.168.1.65:9001/playermenu/getpcs', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -212,22 +212,22 @@ class SinglePlayerMenu extends React.Component {
 
                     {/* Popups: */}
 
-                    {/* <div style={{resizeMode: 'center',}}> */}
+                    {/* <div style={{alignItems:'center', justifyContent:'center', resizeMode: 'center',}}> */}
 
-                    <div className="modal1" style={{display: this.state.modal1Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal1" style={{display: this.state.modal1Open ? 'block' : 'none', "position": "absolute", "top":"1%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", width:'75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal1Open ? 
                                 returnCharacterCreatePopup()
                             : 'Modal1'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal1Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
+                    <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
                             {this.state.modal2Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to edit: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
                                                 <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => {
@@ -271,12 +271,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal2Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth:"75%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal3Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to duplicate: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
                                                 <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDuplicateCharacter(character[1])}>
@@ -297,12 +297,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal3Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal4Open ?
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose Character to remove: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
                                                 <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiRemoveCharacter(character[1])}>
@@ -323,12 +323,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal4Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal9" style={{display: this.state.modal9Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal9" style={{display: this.state.modal9Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal9Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Existing character saves:</p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row"}}>
+                                    <div style={{"display": "flex", "flexDirection": "row"}}>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character} style={{fontSize: '10px', border:'1px solid grey', borderRadius: '5px', padding: '5px'}}>
                                                 {character[1]}
@@ -336,7 +336,7 @@ class SinglePlayerMenu extends React.Component {
                                         ))}
                                     </div>
                                     <p>Choose a Character to save:</p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characters).map((character) => (
                                             <div key={character}>
                                                 <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiSaveCharacter(character[1])}>
@@ -357,12 +357,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal9Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal5" style={{display: this.state.modal5Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal5" style={{display: this.state.modal5Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal5Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a Character save to load: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character}>
                                                 <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadCharacterSave(character[1])}>
@@ -376,12 +376,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal5Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal6" style={{display: this.state.modal6Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal6" style={{display: this.state.modal6Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal6Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a Character save to delete: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.characterSaves).map((character) => (
                                             <div key={character}>
                                                 <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDeleteCharacterSave(character[1])}>
@@ -395,12 +395,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal6Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal7" style={{display: this.state.modal7Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal7" style={{display: this.state.modal7Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal7Open ? 
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a game to load: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{display: "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.gameSaves).map((game) => (
                                             <div key={game}>
                                                 <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadGameState(game[1])}>
@@ -414,12 +414,12 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal7Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal8" style={{display: this.state.modal8Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal8" style={{display: this.state.modal8Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal8Open ?
-                                <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+                                <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                                     <p>Choose a game to delete: </p>
-                                    <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                                    <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                                         {Object.entries(this.state.gameSaves).map((game) => (
                                             <div key={game}>
                                                 <Button color="eighth" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => deleteGameState(game[1])}>
@@ -433,40 +433,40 @@ class SinglePlayerMenu extends React.Component {
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal8Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal10" style={{display: this.state.modal10Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal10" style={{display: this.state.modal10Open ? 'block' : 'none', "position": "absolute", "top":"1%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", width:'75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal10Open ? 
                                 returnCharacterEditPopup(this.state.currentCharacterBeingEdited)
                             : 'Modal10'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal10Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal11" style={{display: this.state.modal11Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "28%", "top":"15%", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal11" style={{display: this.state.modal11Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px', maxWidth: '75%'}}>
                             {this.state.modal11Open ?
                                 enterPcInitiativesPopup(this.state.PCs)
                             : 'Modal11'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal11Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal12" style={{display: this.state.modal12Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal12" style={{display: this.state.modal12Open ? 'block' : 'none', "position": "absolute", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal12Open ? 
                                 createGroup(this.state.characters, this.state.charactersNotInMap)
                             : 'Modal12'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal12Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal13" style={{display: this.state.modal13Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal13" style={{display: this.state.modal13Open ? 'block' : 'none', "position": "absolute", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal13Open ? 
                                 loadGroup()
                             : 'Modal13'}
                             <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal13Open: false,})}>[close]</Button>
                         </div>
                     </div>
-                    <div className="modal14" style={{display: this.state.modal14Open ? 'block' : 'none', "position": "absolute", "left": "38%", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
-                        <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                    <div className="modal14" style={{display: this.state.modal14Open ? 'block' : 'none', "position": "absolute", "top":"15%", "zIndex": "1", resizeMode: 'center'}}>
+                        <div style={{"position": "fixed", maxWidth: '75%', "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
                             {this.state.modal14Open ? 
                                 deleteGroup()
                             : 'Modal14'}
@@ -654,7 +654,7 @@ function openDMOptions() {
 }
 
 async function apiDuplicateCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/duplicatecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/duplicatecharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName
@@ -675,7 +675,7 @@ async function apiDuplicateCharacter(charName) {
 }
 
 async function apiRemoveCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/removecharacter', {
         method: 'POST',
         body: charName
     })
@@ -698,7 +698,7 @@ async function apiRemoveCharacter(charName) {
 async function apiMoveCharacterToMap(charName, mapLoc) {
     console.log("map lcation = " + mapLoc)
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/movetomap', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/movetomap', {
         method: 'POST',
         body: charName
     })
@@ -719,7 +719,7 @@ async function apiMoveCharacterToMap(charName, mapLoc) {
 // save data calls:
 
 async function apiRemoveCharacterFromMap(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removefrommap', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/removefrommap', {
         method: 'POST',
         body: charName
     })
@@ -738,7 +738,7 @@ async function apiRemoveCharacterFromMap(charName) {
 }
 
 async function apiSaveCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/savecharacter', {
         method: 'POST',
         body: charName
     })
@@ -757,7 +757,7 @@ async function apiSaveCharacter(charName) {
 }
 
 async function apiLoadCharacterSave(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/loadcharacter', {
         method: 'POST',
         body: charName
     })
@@ -784,7 +784,7 @@ function apiDeleteCharacterSave(charName) {
 
 
 async function apiDeleteCharacterSaveAsync(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletecharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/deletecharacter', {
         method: 'POST',
         body: charName
     })
@@ -803,7 +803,7 @@ async function apiDeleteCharacterSaveAsync(charName) {
 }
 
 async function apiSaveGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savegame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/savegame', {
         method: 'POST',
         body: gameName
     })
@@ -822,7 +822,7 @@ async function apiSaveGameState(gameName) {
 }
 
 async function apiLoadGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadgame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/loadgame', {
         method: 'POST',
         body: gameName
     })
@@ -848,7 +848,7 @@ function deleteGameState(gameName) {
 }
 
 async function apiDeleteGameState(gameName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletegame', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/deletegame', {
         method: 'POST',
         body: gameName
     })

@@ -18,7 +18,7 @@ class GameModeMenu extends React.Component {
   }
 
   getAllPlayers = async () => {
-    const res = await fetch('http://YOUR_URL_HERE:9001/getplayers', {
+    const res = await fetch('http://192.168.1.65:9001/getplayers', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -93,7 +93,7 @@ function handleClickSingleplayer() {
 }
 
 async function apiAddPlayer(username, isDm, playerNumber) {
-  const res = await fetch('http://YOUR_URL_HERE:9001/addplayer', {
+  const res = await fetch('http://192.168.1.65:9001/addplayer', {
     method: 'POST',
     body: JSON.stringify({
       username: username,

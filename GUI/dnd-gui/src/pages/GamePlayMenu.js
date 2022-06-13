@@ -60,7 +60,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -73,7 +73,7 @@ class GamePlayMenu extends React.Component {
             console.log(err);
         });
 
-        // const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
+        // const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
         //     method: 'GET',
         // })
         // .then(response => response.json())
@@ -91,7 +91,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getInitiative = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getinitiative', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/getinitiative', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -112,7 +112,7 @@ class GamePlayMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterBeingEditedName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
+            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -134,7 +134,7 @@ class GamePlayMenu extends React.Component {
     getTurns = async () => {
         try {
 
-            const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcurrentcharacter', {
+            const res = await fetch('http://192.168.1.65:9001/playermenu/getcurrentcharacter', {
                 method: 'GET',
             })
             .then(response => response.text())
@@ -148,7 +148,7 @@ class GamePlayMenu extends React.Component {
                 console.log(err);
             });
 
-            const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getnextcharacter', {
+            const res2 = await fetch('http://192.168.1.65:9001/playermenu/getnextcharacter', {
                 method: 'GET',
             })
             .then(response => response.text())
@@ -170,7 +170,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getTime = async () => {
-        const res = await  fetch('http://YOUR_URL_HERE:9001/playermenu/gettimestring', {
+        const res = await  fetch('http://192.168.1.65:9001/playermenu/gettimestring', {
             method: 'GET',
         })
         .then((response) => {
@@ -189,7 +189,7 @@ class GamePlayMenu extends React.Component {
     }
 
     doNextTurn = async () => {
-        const res = await  fetch('http://YOUR_URL_HERE:9001/playermenu/nextturn', {
+        const res = await  fetch('http://192.168.1.65:9001/playermenu/nextturn', {
             method: 'GET',
         })
         .then(() => {
@@ -202,7 +202,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getTimedEffects = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/gettimedeffects', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/gettimedeffects', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -279,16 +279,16 @@ class GamePlayMenu extends React.Component {
                         <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal1Open: false,})}>[close]</Button>
                     </div>
                 </div>
-                <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "left": "38%", "top":"15%", resizeMode: 'center'}}>
-                    <div style={{"position": "fixed", "left":"28%", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                <div className="modal2" style={{display: this.state.modal2Open ? 'block' : 'none', "position": "absolute", "zIndex": "1", "top":"15%", resizeMode: 'center'}}>
+                    <div style={{"position": "fixed", "backgroundColor": "lightgrey", maxWidth: '84%', border: '5px solid lightgrey',borderRadius: '5px'}}>
                         {this.state.modal2Open ? 
                             editAllInitiativesPopup(this.state.initiativeOrder)
                         : 'Modal2'}
                         <Button style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => this.setState({modal2Open: false,})}>[close]</Button>
                     </div>
                 </div>
-                <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
-                    <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                <div className="modal3" style={{display: this.state.modal3Open ? 'block' : 'none', "position": "absolute", "top":"1%", "zIndex": "1", resizeMode: 'center'}}>
+                    <div style={{"position": "fixed", width:'90%', height:'95%', "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
                         {this.state.modal3Open ? 
                             returnCharacterViewPopup(this.state.currentCharacterBeingEdited)
                         : 'Modal3'}
@@ -300,8 +300,8 @@ class GamePlayMenu extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "top":"1%", "left": "25%", "zIndex": "1", resizeMode: 'center'}}>
-                    <div style={{"position": "fixed", "backgroundColor": "lightgrey", border: '5px solid lightgrey',borderRadius: '5px'}}>
+                <div className="modal4" style={{display: this.state.modal4Open ? 'block' : 'none', "position": "absolute", "top":"1%", "zIndex": "1", resizeMode: 'center'}}>
+                    <div style={{"position": "fixed", width:'90%', "backgroundColor": "lightgrey", border: '5px solid lightgrey', borderRadius: '5px'}}>
                         {this.state.modal4Open ? 
                             returnCharacterEditPopup(this.state.currentCharacterBeingEdited)
                         : 'Modal4'}
@@ -390,253 +390,257 @@ class GamePlayMenu extends React.Component {
                     </div>
                 </div>
                 <div style={{resizeMode: 'center'}}>
-                    <TextField color="dmblue"
-                        focused
-                        style = {{width: '50%'}}
-                        InputProps={{
-                            readOnly: true,
-                            style: { fontSize: 26, color: '#283593' },
-                        }}
-                        id="outlined"
-                        InputLabelProps={{ style: {fontSize: 22, zIndex: 0} }}
-                        label="Time"
-                        value={this.state.timeString}
-                    />
-                    <p></p>
-                   
-                    <Paper style={{maxHeight: 200, maxWidth: 800, overflow: 'auto', 'backgroundColor':'lightblue'}}>
-                        {Object.entries(this.state.timedEffects).map((timedEffect) => (
-                            <List key = {timedEffect}>
-                                <div style={{"display": "flex", "flexDirection": "row"}}>
-                                    &nbsp;
-                                    <TextField color="sixth"
-                                        focused
-                                        style = {{width: '50%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Effect name"
-                                        value={timedEffect[1].name}
-                                    />&nbsp;&nbsp;
+                    <Paper style={{maxHeight: 820, overflow: 'auto', backgroundColor: 'transparent'}}>
+                        <div style={{border: '15px solid transparent', borderRadius: '5px'}}>
+                            <TextField color="dmblue"
+                                focused
+                                style = {{width: '50%'}}
+                                InputProps={{
+                                    readOnly: true,
+                                    style: { fontSize: 26, color: '#283593' },
+                                }}
+                                id="outlined"
+                                InputLabelProps={{ style: {fontSize: 22, zIndex: 0} }}
+                                label="Time"
+                                value={this.state.timeString}
+                            />
+                            <p></p>
+                        
+                            <Paper style={{maxHeight: 200, maxWidth: 1100, overflow: 'auto', 'backgroundColor':'lightblue'}}>
+                                {Object.entries(this.state.timedEffects).map((timedEffect) => (
+                                    <List key = {timedEffect}>
+                                        <div style={{"display": "flex", "flexDirection": "row"}}>
+                                            &nbsp;
+                                            <TextField color="sixth"
+                                                focused
+                                                style = {{width: '50%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Effect name"
+                                                value={timedEffect[1].name}
+                                            />&nbsp;&nbsp;
 
-                                    &nbsp;&nbsp;
-                                    <TextField color="sixth"
-                                        focused
-                                        style = {{width: '70%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Effect"
-                                        value={timedEffect[1].effect}
-                                    />&nbsp;&nbsp;
+                                            &nbsp;&nbsp;
+                                            <TextField color="sixth"
+                                                focused
+                                                style = {{width: '70%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Effect"
+                                                value={timedEffect[1].effect}
+                                            />&nbsp;&nbsp;
 
-                                    &nbsp;&nbsp;
-                                    <TextField color="sixth"
-                                        focused
-                                        style = {{width: '50%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Targets/Area"
-                                        value={timedEffect[1].targets}
-                                    />&nbsp;&nbsp;
+                                            &nbsp;&nbsp;
+                                            <TextField color="sixth"
+                                                focused
+                                                style = {{width: '50%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Targets/Area"
+                                                value={timedEffect[1].targets}
+                                            />&nbsp;&nbsp;
 
-                                    &nbsp;&nbsp;
-                                    <TextField color="sixth"
-                                        focused
-                                        style = {{width: '30%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Rounds left"
-                                        value={timedEffect[1].timeLeft}
-                                    />&nbsp;&nbsp;
-                                    <Button  variant='contained' color='eighth' style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => endEffect(timedEffect[1].name)} endIcon={<Flare />}>
-                                        End now
-                                    </Button>&nbsp;
-                                </div>
-                            </List>
-                        ))}
+                                            &nbsp;&nbsp;
+                                            <TextField color="sixth"
+                                                focused
+                                                style = {{width: '30%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Rounds left"
+                                                value={timedEffect[1].timeLeft}
+                                            />&nbsp;&nbsp;
+                                            <Button  variant='contained' color='eighth' style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => endEffect(timedEffect[1].name)} endIcon={<Flare />}>
+                                                End now
+                                            </Button>&nbsp;
+                                        </div>
+                                    </List>
+                                ))}
+                            </Paper>
+                            
+                            
+                            <h3>Initiative order:</h3>
+                            <Paper style={{maxHeight: 600, maxWidth: 1700, overflow: 'auto', 'backgroundColor':'#C5CAE9',  border: '30px solid #C5CAE9', borderRadius: '10px'}}>
+                                {Object.entries(this.state.initiativeOrder).map((character) => (
+                                    <List key = {character} >
+                                        <div style={{"display": "flex", "flexDirection": "row"}}>
+                                            &nbsp;
+                                            {this.state.currentTurn ==  character[1].name ? 
+                                                <TextField color="currentturn"
+                                                    focused
+                                                    style = {{width: '65%'}}
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                        style: { fontSize: 22 },
+                                                    }}
+                                                    id="outlined"
+                                                    InputLabelProps={{ style: { fontSize: 22, fontWeight: 'bold', zIndex: 0} }}
+                                                    label="Current turn:"
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            currentCharacterBeingEditedName: character[1].name,
+                                                        });
+                                                        setTimeout(() => {  
+                                                            // need to get CurrentCharacter to view
+                                                            this.getCharacterForView();
+                                                        }, 10);
+                                                    }}
+                                                />
+                                            : this.state.nextTurn == character[1].name ? 
+                                                <TextField color="nextturn"
+                                                    focused
+                                                    style = {{width: '60%'}}
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                        style: { fontSize: 18 },
+                                                    }}
+                                                    InputLabelProps={{ style: { fontSize: 18, fontWeight: 'bold', zIndex: 0} }}
+                                                    id="outlined"
+                                                    label="Next up:"
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            currentCharacterBeingEditedName: character[1].name,
+                                                        });
+                                                        setTimeout(() => {  
+                                                            // need to get CurrentCharacter to view
+                                                            this.getCharacterForView();
+                                                        }, 10);
+                                                    }}
+                                                />
+                                            : 
+                                                <TextField color="secondary"
+                                                    focused
+                                                    style = {{width: '60%'}}
+                                                    InputProps={{
+                                                        readOnly: true,
+                                                    }}
+                                                    id="outlined"
+                                                    label="Name"
+                                                    InputLabelProps={{ style: {zIndex: 0} }}
+                                                    defaultValue={character[1].name + '      🔍'}
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            currentCharacterBeingEditedName: character[1].name,
+                                                        });
+                                                        setTimeout(() => {  
+                                                            // need to get CurrentCharacter to view
+                                                            this.getCharacterForView();
+                                                        }, 10);
+                                                    }}
+                                                /> 
+                                            }
+                                            &nbsp;&nbsp;
+
+                                            &nbsp;&nbsp;
+                                            <TextField color="editblue"
+                                                focused
+                                                style = {{width: '25%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                type="number"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Initiative total"
+                                                defaultValue={character[1].initTotal}
+                                            />&nbsp;&nbsp;
+
+                                            &nbsp;&nbsp;
+                                            <TextField color="third"
+                                                focused
+                                                style = {{width: '25%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Health"
+                                                defaultValue={character[1].hp + '      🖉'}
+                                                onClick={ () => {
+                                                    this.setState({
+                                                        currentHealthBeingEditedName: character[1].name,
+                                                        currentHealthBeingEdited:  character[1].hp,
+                                                        modal1Open: true
+                                                    });
+                                                }}
+                                            />&nbsp;&nbsp;
+
+                                            &nbsp;&nbsp;
+                                            <TextField color="seventh"
+                                                focused
+                                                style = {{width: '25%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                type="number"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Armor class"
+                                                defaultValue={character[1].ac}
+                                            />&nbsp;&nbsp;
+
+                                            &nbsp;&nbsp;
+                                            <TextField color="eighth"
+                                                focused
+                                                style = {{width: '150%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Full attack"
+                                                defaultValue={character[1].attack}
+                                            />&nbsp;&nbsp;
+
+                                            &nbsp;&nbsp;
+                                            <TextField color="secondary"
+                                                focused
+                                                style = {{width: '40%', color: 'black'}}
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
+                                                id="outlined"
+                                                InputLabelProps={{ style: {zIndex: 0} }}
+                                                label="Status"
+                                                defaultValue={character[1].status}
+                                            />&nbsp;
+                                        </div>
+                                    </List>
+                                ))}
+                            </Paper>
+                            <div>&nbsp;</div>
+                            <div style={{"flexDirection": "row"}}>
+                                <Button color="primary" variant="contained" style={{color:'black', textTransform: "none", fontSize: "16px"}} onClick={() => this.doNextTurn()}>
+                                    Next Turn
+                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="contained" color="editblue" style={{"color":"black",  textTransform: "none", fontSize: "16px"}} onClick={() => {
+                                    this.setState({
+                                        modal2Open: true
+                                    });
+                                }}>
+                                    Edit Initiative Order
+                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="contained" color="dmblue" style={{"color":"white",  textTransform: "none", fontSize: "16px"}} onClick={() => {
+                                    this.setState({
+                                        modal5Open: true
+                                    });
+                                }}>
+                                    Add a timed effect
+                                </Button>
+                            </div>
+                        </div>
                     </Paper>
-                    
-                    
-                    <h3>Initiative order:</h3>
-                    <Paper style={{maxHeight: 600, maxWidth: 1700, overflow: 'auto', 'backgroundColor':'#C5CAE9',  border: '30px solid #C5CAE9', borderRadius: '10px'}}>
-                        {Object.entries(this.state.initiativeOrder).map((character) => (
-                            <List key = {character} >
-                                <div style={{"display": "flex", "flexDirection": "row"}}>
-                                    &nbsp;
-                                    {this.state.currentTurn ==  character[1].name ? 
-                                        <TextField color="currentturn"
-                                            focused
-                                            style = {{width: '65%'}}
-                                            InputProps={{
-                                                readOnly: true,
-                                                style: { fontSize: 22 },
-                                            }}
-                                            id="outlined"
-                                            InputLabelProps={{ style: { fontSize: 22, fontWeight: 'bold', zIndex: 0} }}
-                                            label="Current turn:"
-                                            onClick={() => {
-                                                this.setState({
-                                                    currentCharacterBeingEditedName: character[1].name,
-                                                });
-                                                setTimeout(() => {  
-                                                    // need to get CurrentCharacter to view
-                                                    this.getCharacterForView();
-                                                }, 10);
-                                            }}
-                                        />
-                                    : this.state.nextTurn == character[1].name ? 
-                                        <TextField color="nextturn"
-                                            focused
-                                            style = {{width: '60%'}}
-                                            InputProps={{
-                                                readOnly: true,
-                                                style: { fontSize: 18 },
-                                            }}
-                                            InputLabelProps={{ style: { fontSize: 18, fontWeight: 'bold', zIndex: 0} }}
-                                            id="outlined"
-                                            label="Next up:"
-                                            onClick={() => {
-                                                this.setState({
-                                                    currentCharacterBeingEditedName: character[1].name,
-                                                });
-                                                setTimeout(() => {  
-                                                    // need to get CurrentCharacter to view
-                                                    this.getCharacterForView();
-                                                }, 10);
-                                            }}
-                                        />
-                                    : 
-                                        <TextField color="secondary"
-                                            focused
-                                            style = {{width: '60%'}}
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                            id="outlined"
-                                            label="Name"
-                                            InputLabelProps={{ style: {zIndex: 0} }}
-                                            defaultValue={character[1].name + '      🔍'}
-                                            onClick={() => {
-                                                this.setState({
-                                                    currentCharacterBeingEditedName: character[1].name,
-                                                });
-                                                setTimeout(() => {  
-                                                    // need to get CurrentCharacter to view
-                                                    this.getCharacterForView();
-                                                }, 10);
-                                            }}
-                                        /> 
-                                    }
-                                    &nbsp;&nbsp;
-
-                                    &nbsp;&nbsp;
-                                    <TextField color="editblue"
-                                        focused
-                                        style = {{width: '25%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        type="number"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Initiative total"
-                                        defaultValue={character[1].initTotal}
-                                    />&nbsp;&nbsp;
-
-                                    &nbsp;&nbsp;
-                                    <TextField color="third"
-                                        focused
-                                        style = {{width: '25%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Health"
-                                        defaultValue={character[1].hp + '      🖉'}
-                                        onClick={ () => {
-                                            this.setState({
-                                                currentHealthBeingEditedName: character[1].name,
-                                                currentHealthBeingEdited:  character[1].hp,
-                                                modal1Open: true
-                                            });
-                                        }}
-                                    />&nbsp;&nbsp;
-
-                                    &nbsp;&nbsp;
-                                    <TextField color="seventh"
-                                        focused
-                                        style = {{width: '25%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        type="number"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Armor class"
-                                        defaultValue={character[1].ac}
-                                    />&nbsp;&nbsp;
-
-                                    &nbsp;&nbsp;
-                                    <TextField color="eighth"
-                                        focused
-                                        style = {{width: '150%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Full attack"
-                                        defaultValue={character[1].attack}
-                                    />&nbsp;&nbsp;
-
-                                    &nbsp;&nbsp;
-                                    <TextField color="secondary"
-                                        focused
-                                        style = {{width: '40%', color: 'black'}}
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
-                                        id="outlined"
-                                        InputLabelProps={{ style: {zIndex: 0} }}
-                                        label="Status"
-                                        defaultValue={character[1].status}
-                                    />&nbsp;
-                                </div>
-                            </List>
-                        ))}
-                    </Paper>
-                    <div>&nbsp;</div>
-                    <div style={{"flexDirection": "row"}}>
-                        <Button color="primary" variant="contained" style={{color:'black', textTransform: "none", fontSize: "16px"}} onClick={() => this.doNextTurn()}>
-                            Next Turn
-                        </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained" color="editblue" style={{"color":"black",  textTransform: "none", fontSize: "16px"}} onClick={() => {
-                            this.setState({
-                                modal2Open: true
-                            });
-                        }}>
-                            Edit Initiative Order
-                        </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button variant="contained" color="dmblue" style={{"color":"white",  textTransform: "none", fontSize: "16px"}} onClick={() => {
-                            this.setState({
-                                modal5Open: true
-                            });
-                        }}>
-                            Add a timed effect
-                        </Button>
-                    </div>
                 </div>
             </div>
         );
@@ -720,7 +724,7 @@ function timedEffectCreateButton() {
 
 async function apiEditCharacterHealth(charName, currentHealth) {
     
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacterhealth', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacterhealth', {
     method: 'POST',
     body: JSON.stringify({
         "characterName": charName,
@@ -742,7 +746,7 @@ async function apiEditCharacterHealth(charName, currentHealth) {
 }
 
 async function addEffect(effectName, effect, effectTargets, effectDuration) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addtimedeffect', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/addtimedeffect', {
     method: 'POST',
     body: JSON.stringify({
         "name": effectName,
@@ -760,7 +764,7 @@ async function addEffect(effectName, effect, effectTargets, effectDuration) {
 }
 
 async function endEffect(effectName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removetimedeffect', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/removetimedeffect', {
     method: 'POST',
     body: effectName,
     })

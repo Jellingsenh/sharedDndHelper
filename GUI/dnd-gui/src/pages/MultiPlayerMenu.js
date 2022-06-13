@@ -24,7 +24,7 @@ class MultiPlayerMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -37,7 +37,7 @@ class MultiPlayerMenu extends React.Component {
             console.log(err);
         });
 
-        const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
+        const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -132,7 +132,7 @@ function createThing() {
 }
 
 async function apiAddCharacter(charName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/addcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName":charName,

@@ -1,8 +1,11 @@
 package com.dnd.helper.restservice.gamedata;
 
-import java.util.Vector;
+import java.io.Serializable;
 
-public class TimedEffect {
+public class TimedEffect implements Serializable {
+	//default serialVersion id
+    private static final long serialVersionUID = 1L;
+
 	private String name;
 	private String effect;
 	private String targets;

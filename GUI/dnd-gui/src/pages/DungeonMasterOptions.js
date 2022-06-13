@@ -16,7 +16,7 @@ class DungeonMasterOptions extends React.Component {
   }
 
   getTime = async () => {
-      const res = await  fetch('http://YOUR_URL_HERE:9001/playermenu/gettimestring', {
+      const res = await  fetch('http://192.168.1.65:9001/playermenu/gettimestring', {
           method: 'GET',
       })
       .then((response) => {
@@ -123,7 +123,7 @@ function addRounds(e) {
 async function submitRounds() {
   // console.log('rounds to add:', roundsToAdd)
   if (roundsToAdd >= 0 ) {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/addrounds', {
+    await fetch('http://192.168.1.65:9001/playermenu/addrounds', {
         method: 'POST',
         body: roundsToAdd
     })
@@ -131,7 +131,7 @@ async function submitRounds() {
         console.log(err);
     });
   } else {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/subtractrounds', {
+    await fetch('http://192.168.1.65:9001/playermenu/subtractrounds', {
         method: 'POST',
         body: roundsToAdd*-1
     })
@@ -149,7 +149,7 @@ function addMinutes(e) {
 
 async function submitMinutes() {
   if (minutesToAdd >= 0 ) {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/addminutes', {
+    await fetch('http://192.168.1.65:9001/playermenu/addminutes', {
         method: 'POST',
         body: minutesToAdd
     })
@@ -157,7 +157,7 @@ async function submitMinutes() {
         console.log(err);
     });
   } else {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/subtractminutes', {
+    await fetch('http://192.168.1.65:9001/playermenu/subtractminutes', {
         method: 'POST',
         body: minutesToAdd*-1
     })
@@ -175,7 +175,7 @@ function addHours(e) {
 
 async function submitHours() {
   if (hoursToAdd >= 0 ) {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/addhours', {
+    await fetch('http://192.168.1.65:9001/playermenu/addhours', {
         method: 'POST',
         body: hoursToAdd
     })
@@ -183,7 +183,7 @@ async function submitHours() {
         console.log(err);
     });
   } else {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/subtracthours', {
+    await fetch('http://192.168.1.65:9001/playermenu/subtracthours', {
         method: 'POST',
         body: hoursToAdd*-1
     })
@@ -201,7 +201,7 @@ function addDays(e) {
 
 async function submitDays() {
   if (daysToAdd >= 0 ) {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/adddays', {
+    await fetch('http://192.168.1.65:9001/playermenu/adddays', {
         method: 'POST',
         body: daysToAdd
     })
@@ -209,7 +209,7 @@ async function submitDays() {
         console.log(err);
     });
   } else {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/subtractdays', {
+    await fetch('http://192.168.1.65:9001/playermenu/subtractdays', {
         method: 'POST',
         body: daysToAdd*-1
     })
@@ -227,7 +227,7 @@ function addYears(e) {
 
 async function submitYears() {
   if (yearsToAdd >= 0 ) {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/addyears', {
+    await fetch('http://192.168.1.65:9001/playermenu/addyears', {
         method: 'POST',
         body: yearsToAdd
     })
@@ -235,7 +235,7 @@ async function submitYears() {
         console.log(err);
     });
   } else {
-    await fetch('http://YOUR_URL_HERE:9001/playermenu/subtractyears', {
+    await fetch('http://192.168.1.65:9001/playermenu/subtractyears', {
         method: 'POST',
         body: yearsToAdd*-1
     })
@@ -248,7 +248,7 @@ async function submitYears() {
 }
 
 async function resetTime() {
-  await fetch('http://YOUR_URL_HERE:9001/playermenu/resettime', {
+  await fetch('http://192.168.1.65:9001/playermenu/resettime', {
       method: 'GET',
   })
   .catch(err => {

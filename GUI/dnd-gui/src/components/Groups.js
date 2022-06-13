@@ -5,7 +5,7 @@ import {Paper, Stack, Button, TextField, FormControlLabel, Checkbox, getFormGrou
 var groups = {};
 
 export function getGroups() {
-    const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getgroupsaves', {
+    const res = fetch('http://192.168.1.65:9001/playermenu/getgroupsaves', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -23,9 +23,9 @@ export function createGroup(characterList, characterNotInMapList) {
     var groupName = prompt('Existing groups:\n{' + groups + '}\n\nNew group name:');
     if (groupName != null && groupName != '') {
         return (
-            <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+            <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
                 <p>Create group {groupName}: </p>
-                <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+                <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                     {Object.entries(characterList).map((character) => (
                         <div key={character}>
                             <FormControlLabel control={<Checkbox color="sixth" defaultChecked={false} onChange={(e) => addCharToGroup(e, character[1], groupName)}/>} label={character[1]} />
@@ -50,9 +50,9 @@ export function createGroup(characterList, characterNotInMapList) {
 
 export function loadGroup() {
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+        <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
             <p>Choose group to load: </p>
-            <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+            <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                 {Object.entries(groups).map((group) => (
                     <div key={group}>
                         <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiLoadGroup(group[1])}>
@@ -67,9 +67,9 @@ export function loadGroup() {
 
 export function deleteGroup() {
     return (
-        <Paper style={{maxHeight: 800, maxWidth: 800, overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
+        <Paper style={{overflow: 'auto', 'backgroundColor':'white', border: '10px solid white', borderRadius: '5px'}}>
             <p>Choose group to delete: </p>
-            <div style={{"alignItems":"center", "justifyContent":"center",  "display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
+            <div style={{"display": "flex", "flexDirection": "row", border: '20px solid white', borderRadius: '5px'}}>
                 {Object.entries(groups).map((group) => (
                     <div key={group}>
                         <Button color="deeppurp" variant="outlined" style={{"color":"black", textTransform: "none", fontSize: "10px"}} onClick={() => apiDeleteGroup(group[1])}>
@@ -123,7 +123,7 @@ async function apiCreateGroup(groupName) {
     groupBody += ' }';
     console.log('groupBody:', groupBody);
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savegroup', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/savegroup', {
         method: 'POST',
         body: groupBody
     })
@@ -144,7 +144,7 @@ async function apiCreateGroup(groupName) {
 }
 
 async function apiLoadGroup(groupName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadgroup', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/loadgroup', {
         method: 'POST',
         body: groupName
     })
@@ -170,7 +170,7 @@ function apiDeleteGroup(groupName) {
 }
 
 async function apiDeleteGroupAsync(groupName) {
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletegroup', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/deletegroup', {
         method: 'POST',
         body: groupName
     })
