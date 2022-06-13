@@ -71,7 +71,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -84,7 +84,7 @@ class SinglePlayerMenu extends React.Component {
             console.log(err);
         });
 
-        const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
+        const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -107,7 +107,7 @@ class SinglePlayerMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
+            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -127,7 +127,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadCharacterSaves = () => {
-        const res = fetch('http://192.168.1.65:9001/playermenu/getcharactersaves', {
+        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getcharactersaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -143,7 +143,7 @@ class SinglePlayerMenu extends React.Component {
     }
 
     loadGameSaves = () => {
-        const res = fetch('http://192.168.1.65:9001/playermenu/getgamesaves', {
+        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getgamesaves', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -172,7 +172,7 @@ class SinglePlayerMenu extends React.Component {
     getPcsForInitiative = () => {
         // populate PCs in map, then open the initiative popup!
 
-        const res = fetch('http://192.168.1.65:9001/playermenu/getpcs', {
+        const res = fetch('http://YOUR_URL_HERE:9001/playermenu/getpcs', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -654,7 +654,7 @@ function openDMOptions() {
 }
 
 async function apiDuplicateCharacter(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/duplicatecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/duplicatecharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName
@@ -675,7 +675,7 @@ async function apiDuplicateCharacter(charName) {
 }
 
 async function apiRemoveCharacter(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/removecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removecharacter', {
         method: 'POST',
         body: charName
     })
@@ -698,7 +698,7 @@ async function apiRemoveCharacter(charName) {
 async function apiMoveCharacterToMap(charName, mapLoc) {
     console.log("map lcation = " + mapLoc)
 
-    const res = await fetch('http://192.168.1.65:9001/playermenu/movetomap', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/movetomap', {
         method: 'POST',
         body: charName
     })
@@ -719,7 +719,7 @@ async function apiMoveCharacterToMap(charName, mapLoc) {
 // save data calls:
 
 async function apiRemoveCharacterFromMap(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/removefrommap', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removefrommap', {
         method: 'POST',
         body: charName
     })
@@ -738,7 +738,7 @@ async function apiRemoveCharacterFromMap(charName) {
 }
 
 async function apiSaveCharacter(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/savecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savecharacter', {
         method: 'POST',
         body: charName
     })
@@ -757,7 +757,7 @@ async function apiSaveCharacter(charName) {
 }
 
 async function apiLoadCharacterSave(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/loadcharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadcharacter', {
         method: 'POST',
         body: charName
     })
@@ -784,7 +784,7 @@ function apiDeleteCharacterSave(charName) {
 
 
 async function apiDeleteCharacterSaveAsync(charName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/deletecharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletecharacter', {
         method: 'POST',
         body: charName
     })
@@ -803,7 +803,7 @@ async function apiDeleteCharacterSaveAsync(charName) {
 }
 
 async function apiSaveGameState(gameName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/savegame', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/savegame', {
         method: 'POST',
         body: gameName
     })
@@ -822,7 +822,7 @@ async function apiSaveGameState(gameName) {
 }
 
 async function apiLoadGameState(gameName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/loadgame', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/loadgame', {
         method: 'POST',
         body: gameName
     })
@@ -848,7 +848,7 @@ function deleteGameState(gameName) {
 }
 
 async function apiDeleteGameState(gameName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/deletegame', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/deletegame', {
         method: 'POST',
         body: gameName
     })

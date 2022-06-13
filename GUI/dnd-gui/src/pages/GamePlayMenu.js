@@ -60,7 +60,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getAllCharacters = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/true', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -73,7 +73,7 @@ class GamePlayMenu extends React.Component {
             console.log(err);
         });
 
-        // const res2 = await fetch('http://192.168.1.65:9001/playermenu/getcharacters/false', {
+        // const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
         //     method: 'GET',
         // })
         // .then(response => response.json())
@@ -91,7 +91,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getInitiative = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/getinitiative', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getinitiative', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -112,7 +112,7 @@ class GamePlayMenu extends React.Component {
         console.log('getting ' + this.state.currentCharacterBeingEditedName + ' (to edit) ...')
 
         try {
-            const response = await fetch('http://192.168.1.65:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
+            const response = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacter/' + this.state.currentCharacterBeingEditedName, {
                 method: 'GET'
             })
             var char = await response.json();
@@ -134,7 +134,7 @@ class GamePlayMenu extends React.Component {
     getTurns = async () => {
         try {
 
-            const res = await fetch('http://192.168.1.65:9001/playermenu/getcurrentcharacter', {
+            const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcurrentcharacter', {
                 method: 'GET',
             })
             .then(response => response.text())
@@ -148,7 +148,7 @@ class GamePlayMenu extends React.Component {
                 console.log(err);
             });
 
-            const res2 = await fetch('http://192.168.1.65:9001/playermenu/getnextcharacter', {
+            const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getnextcharacter', {
                 method: 'GET',
             })
             .then(response => response.text())
@@ -170,7 +170,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getTime = async () => {
-        const res = await  fetch('http://192.168.1.65:9001/playermenu/gettimestring', {
+        const res = await  fetch('http://YOUR_URL_HERE:9001/playermenu/gettimestring', {
             method: 'GET',
         })
         .then((response) => {
@@ -189,7 +189,7 @@ class GamePlayMenu extends React.Component {
     }
 
     doNextTurn = async () => {
-        const res = await  fetch('http://192.168.1.65:9001/playermenu/nextturn', {
+        const res = await  fetch('http://YOUR_URL_HERE:9001/playermenu/nextturn', {
             method: 'GET',
         })
         .then(() => {
@@ -202,7 +202,7 @@ class GamePlayMenu extends React.Component {
     }
 
     getTimedEffects = async () => {
-        const res = await fetch('http://192.168.1.65:9001/playermenu/gettimedeffects', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/gettimedeffects', {
             method: 'GET',
         })
         .then(response => response.json())
@@ -724,7 +724,7 @@ function timedEffectCreateButton() {
 
 async function apiEditCharacterHealth(charName, currentHealth) {
     
-    const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacterhealth', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacterhealth', {
     method: 'POST',
     body: JSON.stringify({
         "characterName": charName,
@@ -746,7 +746,7 @@ async function apiEditCharacterHealth(charName, currentHealth) {
 }
 
 async function addEffect(effectName, effect, effectTargets, effectDuration) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/addtimedeffect', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addtimedeffect', {
     method: 'POST',
     body: JSON.stringify({
         "name": effectName,
@@ -764,7 +764,7 @@ async function addEffect(effectName, effect, effectTargets, effectDuration) {
 }
 
 async function endEffect(effectName) {
-    const res = await fetch('http://192.168.1.65:9001/playermenu/removetimedeffect', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removetimedeffect', {
     method: 'POST',
     body: effectName,
     })

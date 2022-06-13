@@ -852,7 +852,7 @@ function editEnterButton() {
 async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-    const res = await fetch('http://192.168.1.65:9001/playermenu/addcharacter', {
+    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
@@ -897,7 +897,7 @@ async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, i
 async function apiEditCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-        const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacter', {
+        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
