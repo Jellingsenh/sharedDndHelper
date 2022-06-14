@@ -275,6 +275,13 @@ public class GameData implements Serializable {
 		Vector<Map<String, String>> initiativeOrderMap = mapInitiativeOrder(initiativeVector);
 		
 		setInitiativeOrder(initiativeOrderMap);
+
+		//set turns
+		if (!setInitialTurns()) {
+			System.out.println("Unable to set initial turn order");
+		} else {
+			System.out.println("Set initial turn order");
+		}
 		
 		return initiativeOrderMap;
 	}
