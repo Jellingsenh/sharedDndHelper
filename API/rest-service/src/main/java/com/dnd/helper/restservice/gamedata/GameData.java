@@ -232,10 +232,8 @@ public class GameData implements Serializable {
 		if (getCurrentCharacterName() == null || getNextCharacterName() == null) {
 			return setInitialTurns();
 		} else {
-			addOneRound(); // time
-			
 			if (getInitiativeOrder().size() >= 2) {
-				
+								
 				setCurrentCharacterName(getNextCharacterName());
 				
 				for (int i = 0; i < getInitiativeOrder().size(); i++) { // update next character
@@ -245,6 +243,11 @@ public class GameData implements Serializable {
 						} else {
 							setNextCharacterName(getInitiativeOrder().get(i+1).get("name"));
 						}
+						
+						if (i == 0) {// round count up when: next character is set to 2nd in list (curr char set to 1st)
+							addOneRound(); // time
+						}
+						
 						break;
 					}
 				}
@@ -275,7 +278,7 @@ public class GameData implements Serializable {
 		Vector<Map<String, String>> initiativeOrderMap = mapInitiativeOrder(initiativeVector);
 		
 		setInitiativeOrder(initiativeOrderMap);
-
+		
 		//set turns
 		if (!setInitialTurns()) {
 			System.out.println("Unable to set initial turn order");
@@ -542,7 +545,7 @@ public class GameData implements Serializable {
 			totalTime = totalTime.substring(0, totalTime.length()-2) + ".";
 		} else {
 			setTime(0);
-			totalTime = "Time has not started yet";
+			totalTime = "Round: 0";
 		}
 		return totalTime;
 	}

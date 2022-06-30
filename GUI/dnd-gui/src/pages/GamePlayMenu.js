@@ -20,8 +20,6 @@ class GamePlayMenu extends React.Component {
             currentPlayer: user,
             dm: dm,
             currentCharacter: currChar,
-            characters: {},
-            // charactersNotInMap: {},
             currentTurn: "",
             nextTurn: "",
             timeString: "",
@@ -39,9 +37,6 @@ class GamePlayMenu extends React.Component {
             currentCharacterBeingEditedName: "",
         };
 
-        this.getAllCharacters.bind(this);
-        this.getAllCharacters();
-
         this.getInitiative.bind(this);
         this.getInitiative();
 
@@ -57,37 +52,6 @@ class GamePlayMenu extends React.Component {
 
         this.getTimedEffects.bind(this);
         this.getTimedEffects();
-    }
-
-    getAllCharacters = async () => {
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/true', {
-            method: 'GET',
-        })
-        .then(response => response.json())
-        .then(response => {
-            this.setState({
-                characters: response,
-            });
-        })
-        .catch(err => {
-            console.log(err);
-        });
-
-        // const res2 = await fetch('http://YOUR_URL_HERE:9001/playermenu/getcharacters/false', {
-        //     method: 'GET',
-        // })
-        // .then(response => response.json())
-        // .then(response => {
-        //     this.setState({
-        //         charactersNotInMap: response,
-        //     });
-        // })
-        // .catch(err => {
-        //     console.log(err);
-        // });
-
-        console.log('got characters in the map:', this.state.characters);
-        // console.log('got characters (not in map):', this.state.charactersNotInMap);
     }
 
     getInitiative = async () => {
@@ -122,7 +86,7 @@ class GamePlayMenu extends React.Component {
                     currentCharacterBeingEdited: char,
                     modal3Open: true,
                 });
-            }, 300);
+            }, 10);
             
         }
         catch(err) {
@@ -193,8 +157,8 @@ class GamePlayMenu extends React.Component {
             method: 'GET',
         })
         .then(() => {
-            // refresh page
-            window.location.reload(false);
+            this.getTurns();
+            this.getTime();
         })
         .catch(err => {
             console.log(err);
@@ -226,7 +190,6 @@ class GamePlayMenu extends React.Component {
         }
 
         console.log('got effects:', this.state.timedEffects);
-        // console.log('got characters (not in map):', this.state.charactersNotInMap);
     }
 
     render() {
@@ -270,7 +233,16 @@ class GamePlayMenu extends React.Component {
                                 </div>
                                 <p></p>
                                 <div>
-                                    <Button color="third" onClick={() => editCharacterHealth(this.state.currentHealthBeingEditedName)} variant="contained" endIcon={<HeartBroken />}>
+                                    <Button color="third" onClick={() => {
+                                        editCharacterHealth(this.state.currentHealthBeingEditedName)
+                                        this.getInitiative();
+                                        const newData = this.state.initiativeOrder.slice(0);
+                                        newData[0] = 'something'
+                                        this.setState({
+                                            initiativeOrder: newData,
+                                        });
+                                        this.setState({modal1Open: false,})
+                                    }} variant="contained" endIcon={<HeartBroken />}>
                                         Update health
                                     </Button>
                                 </div>
@@ -380,7 +352,11 @@ class GamePlayMenu extends React.Component {
                                         defaultValue={0}
                                     />&nbsp;
                                 </div>
-                                <Button color="primary" style={{textTransform: "none", fontSize: "12px", color:'black', margin:'10px'}} onClick={() => timedEffectCreateButton()} variant="contained" endIcon={<AvTimer />}>
+                                <Button color="primary" style={{textTransform: "none", fontSize: "12px", color:'black', margin:'10px'}} onClick={() => {
+                                    timedEffectCreateButton()
+                                    this.getTimedEffects();
+                                    this.setState({modal5Open: false,})
+                                }} variant="contained" endIcon={<AvTimer />}>
                                     Start effect
                                 </Button>
                            
@@ -405,7 +381,26 @@ class GamePlayMenu extends React.Component {
                                 value={this.state.timeString}
                             />
                             <p></p>
-                        
+                            <div style={{"flexDirection": "row"}}>
+                                <Button color="primary" variant="contained" style={{color:'black', textTransform: "none", fontSize: "16px"}} onClick={() => this.doNextTurn()}>
+                                    Next Turn
+                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="contained" color="editblue" style={{"color":"black",  textTransform: "none", fontSize: "16px"}} onClick={() => {
+                                    this.setState({
+                                        modal2Open: true
+                                    });
+                                }}>
+                                    Edit Initiative Order
+                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <Button variant="contained" color="dmblue" style={{"color":"white",  textTransform: "none", fontSize: "16px"}} onClick={() => {
+                                    this.setState({
+                                        modal5Open: true
+                                    });
+                                }}>
+                                    Add a timed effect
+                                </Button>
+                            </div>
+                            <p></p>
                             <Paper style={{maxHeight: 200, maxWidth: 1100, overflow: 'auto', 'backgroundColor':'lightblue'}}>
                                 {Object.entries(this.state.timedEffects).map((timedEffect) => (
                                     <List key = {timedEffect}>
@@ -461,7 +456,10 @@ class GamePlayMenu extends React.Component {
                                                 label="Rounds left"
                                                 value={timedEffect[1].timeLeft}
                                             />&nbsp;&nbsp;
-                                            <Button  variant='contained' color='eighth' style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => endEffect(timedEffect[1].name)} endIcon={<Flare />}>
+                                            <Button  variant='contained' color='eighth' style={{"color":"black",  textTransform: "none", fontSize: "10px"}} onClick={() => { 
+                                                endEffect(timedEffect[1].name);
+                                                this.getTimedEffects();
+                                            }} endIcon={<Flare />}>
                                                 End now
                                             </Button>&nbsp;
                                         </div>
@@ -469,11 +467,11 @@ class GamePlayMenu extends React.Component {
                                 ))}
                             </Paper>
                             
-                            
                             <h3>Initiative order:</h3>
-                            <Paper style={{maxHeight: 600, maxWidth: 1700, overflow: 'auto', 'backgroundColor':'#C5CAE9',  border: '30px solid #C5CAE9', borderRadius: '10px'}}>
+                            <Paper style={{maxHeight: 500, maxWidth: 1700, overflow: 'auto', 'backgroundColor':'#C5CAE9',  border: '30px solid #C5CAE9', borderRadius: '10px'}}>
                                 {Object.entries(this.state.initiativeOrder).map((character) => (
                                     <List key = {character} >
+                                        <div>{console.log('character', character)}</div>
                                         <div style={{"display": "flex", "flexDirection": "row"}}>
                                             &nbsp;
                                             {this.state.currentTurn ==  character[1].name ? 
@@ -566,7 +564,7 @@ class GamePlayMenu extends React.Component {
                                                 id="outlined"
                                                 InputLabelProps={{ style: {zIndex: 0} }}
                                                 label="Health"
-                                                defaultValue={character[1].hp + '      🖉'}
+                                                defaultValue={character[1].hp + '    ✎'}
                                                 onClick={ () => {
                                                     this.setState({
                                                         currentHealthBeingEditedName: character[1].name,
@@ -619,26 +617,6 @@ class GamePlayMenu extends React.Component {
                                     </List>
                                 ))}
                             </Paper>
-                            <div>&nbsp;</div>
-                            <div style={{"flexDirection": "row"}}>
-                                <Button color="primary" variant="contained" style={{color:'black', textTransform: "none", fontSize: "16px"}} onClick={() => this.doNextTurn()}>
-                                    Next Turn
-                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button variant="contained" color="editblue" style={{"color":"black",  textTransform: "none", fontSize: "16px"}} onClick={() => {
-                                    this.setState({
-                                        modal2Open: true
-                                    });
-                                }}>
-                                    Edit Initiative Order
-                                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <Button variant="contained" color="dmblue" style={{"color":"white",  textTransform: "none", fontSize: "16px"}} onClick={() => {
-                                    this.setState({
-                                        modal5Open: true
-                                    });
-                                }}>
-                                    Add a timed effect
-                                </Button>
-                            </div>
                         </div>
                     </Paper>
                 </div>
@@ -735,8 +713,7 @@ async function apiEditCharacterHealth(charName, currentHealth) {
             console.log('Character', charName, 'does not exist');
         } else if (response.status === 200) {
             console.log('Edited character', charName, '\'s health');
-            // refresh page
-            window.location.reload(false);
+            // window.location.reload(false);
         }
     })
     .catch(err => {
@@ -754,10 +731,6 @@ async function addEffect(effectName, effect, effectTargets, effectDuration) {
         "targets": effectTargets,
         "durationRounds": effectDuration,
     })})
-    .then(() => {
-        // refresh page
-        window.location.reload(false);
-    })
     .catch(err => {
         console.log(err);
     });
@@ -767,10 +740,6 @@ async function endEffect(effectName) {
     const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/removetimedeffect', {
     method: 'POST',
     body: effectName,
-    })
-    .then(() => {
-        // refresh page
-        window.location.reload(false);
     })
     .catch(err => {
         console.log(err);

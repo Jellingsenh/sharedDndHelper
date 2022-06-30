@@ -37,11 +37,10 @@ class DungeonMasterOptions extends React.Component {
   render() {
     return (
       
-      <div style={{"display": "flex", "flexDirection": "column", resizeMode: 'center'}}>
+      <div style={{width:'80%', "display": "flex", "flexDirection": "column", resizeMode: 'center'}}>
         <h3>Dungeon Master Options (only time settings for now)</h3>
         <TextField color="dmblue"
             focused
-            style={{ width: '150%', left: '-25%'}}
             InputProps={{
                 readOnly: true,
                 style: { fontSize: 28, color: '#283593' },
@@ -50,53 +49,78 @@ class DungeonMasterOptions extends React.Component {
             label="Time"
             value={this.state.timeString}
         />&nbsp;
-        <Stack spacing={1}>
-          <TextField color="sixth"
-              onChange={addRounds}
-              id="outlined-required"
-              type="number"
-              label="Add rounds (all values can be negative)"
-          />
-          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '50%', left:'25%'}} onClick={() =>submitRounds()} variant="contained" endIcon={<Timer />}>
+        <Stack spacing={1} >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+            <p>a pulled wagon can travel 16 miles per day&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <TextField color="sixth"
+                onChange={addRounds}
+                style={{width:'140%', left:'-20%'}}
+                id="outlined-required"
+                type="number"
+                label="Add rounds (can be negative)"
+            />
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {'a light horse can travel 48 miles per day'}</p>
+          </div>
+          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '20%', left:'40%'}} onClick={() =>submitRounds()} variant="contained" endIcon={<Timer />}>
               Submit rounds
           </Button>
-          <TextField color="sixth"
-              onChange={addMinutes}
-              id="outlined-required"
-              type="number"
-              label="Add minutes"
-          />
-          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '50%', left:'25%'}} onClick={() =>submitMinutes()} variant="contained" endIcon={<MoreTime />}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+          <p>30 ft walk = 3 miles per hour</p>
+            <TextField color="sixth"
+                onChange={addMinutes}
+                style={{width:'140%', left:'-20%'}}
+                id="outlined-required"
+                type="number"
+                label="Add minutes (can be negative)"
+            />
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {'a rowboat can travel 15 miles per day'}</p>
+          </div>
+          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '20%', left:'40%'}} onClick={() =>submitMinutes()} variant="contained" endIcon={<MoreTime />}>
               Submit minutes
           </Button>
-          <TextField color="sixth"
-              onChange={addHours}
-              id="outlined-required"
-              type="number"
-              label="Add hours"
-          />
-          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '50%', left:'25%'}} onClick={() =>submitHours()} variant="contained" endIcon={<AccessTime />}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+            <p>30 ft hustle = 6 miles in an hour&nbsp;&nbsp;</p>
+            <TextField color="sixth"
+                onChange={addHours}
+                style={{width:'140%', left:'-20%'}}
+                id="outlined-required"
+                type="number"
+                label="Add hours (can be negative)"
+            />
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {'a galley can travel 96 miles per day (3.5 knots)'}</p>
+          </div>
+          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '20%', left:'40%'}} onClick={() =>submitHours()} variant="contained" endIcon={<AccessTime />}>
               Submit hours
           </Button>
-          <TextField color="sixth"
-              onChange={addDays}
-              id="outlined-required"
-              type="number"
-              label="Add days"
-          />
-          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '50%', left:'25%'}} onClick={() =>submitDays()} variant="contained" endIcon={<WbSunny />}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+            <p>30 ft walk = 24 miles per day</p>
+            <TextField color="sixth"
+                onChange={addDays}
+                style={{width:'140%', left:'-20%'}}
+                id="outlined-required"
+                type="number"
+                label="Add days (can be negative)"
+            />
+            <p style={{fontSize:'14px'}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            a modern ship can travel 552 miles per day (20 knots)</p>
+          </div>
+          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '20%', left:'40%'}} onClick={() =>submitDays()} variant="contained" endIcon={<WbSunny />}>
               Submit days
           </Button>
           <TextField color="sixth"
               onChange={addYears}
+              style={{width:'46%', left: '27%'}}
               id="outlined-required"
               type="number"
-              label="Add years (overlow errors after about 20,000 years)"
+              label="Add years (use this to determine your campaign's millennium)"
           />
-          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '50%', left:'25%'}} onClick={() =>submitYears()} variant="contained" endIcon={<CalendarViewMonth />}>
+          <Button color="deeppurp" style={{color:"white", textTransform: 'none', width: '20%', left:'40%'}} onClick={() =>submitYears()} variant="contained" endIcon={<CalendarViewMonth />}>
               Submit years
           </Button>&nbsp;
-          <Button color="primary" style={{color:"white", textTransform: 'none'}} onClick={() =>resetTime()} variant="contained" endIcon={<Restore />}>
+          <Button color="primary" style={{color:"white", textTransform: 'none', width: '70%', left:'15%'}} onClick={() =>resetTime()} variant="contained" endIcon={<Restore />}>
               Reset time
           </Button>
         </Stack>
