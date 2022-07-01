@@ -200,7 +200,7 @@ export function returnCharacterEditPopup (currentCharacterFull) {
                         focused
                         style={{width: '100%'}}
                         id="outlined-required"
-                        InputLabelProps={{ style: { fontSize: 11 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                         label="Name (if changed, will create a new character)"
                         onChange={addCharName}
                         defaultValue={charName}
@@ -463,6 +463,25 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         label="Size"
                         defaultValue={currentCharacterFull.size}
                     />&nbsp;&nbsp;
+                    <TextField color="third"
+                        focused
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        id="outlined-required"
+                        type="number"
+                        label="Max Health"
+                        defaultValue={currentCharacterFull.health}
+                    />&nbsp;
+                    <TextField color="third"
+                        focused
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        type="number"
+                        label="Current Health"
+                        defaultValue={currentCharacterFull.currentHealth}
+                    />&nbsp;&nbsp;
                     <TextField color="ninth"
                         focused
                         InputProps={{
@@ -482,25 +501,6 @@ export function returnCharacterViewPopup(currentCharacterFull) {
                         type="number"
                         label="Speed"
                         defaultValue={currentCharacterFull.speed}
-                    />&nbsp;&nbsp;
-                    <TextField color="third"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        id="outlined-required"
-                        type="number"
-                        label="Max Health"
-                        defaultValue={currentCharacterFull.health}
-                    />&nbsp;
-                    <TextField color="third"
-                        focused
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        type="number"
-                        label="Current Health"
-                        defaultValue={currentCharacterFull.currentHealth}
                     />&nbsp;&nbsp;
                     <TextField color="eighth"
                         focused
@@ -852,7 +852,7 @@ function editEnterButton() {
 async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-    const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/addcharacter', {
+    const res = await fetch('http://192.168.1.65:9001/playermenu/addcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
@@ -897,7 +897,7 @@ async function apiAddCharacter(charName, race, size, maxHealth, currentHealth, i
 async function apiEditCharacter(charName, race, size, maxHealth, currentHealth, initiativeBonus, armor, touch, flatFooted, fort, ref, will, grapple, 
     speed, attacks, spells, skills, magic, loot, feats, status, other, isNPC) {
 
-        const res = await fetch('http://YOUR_URL_HERE:9001/playermenu/editcharacter', {
+        const res = await fetch('http://192.168.1.65:9001/playermenu/editcharacter', {
         method: 'POST',
         body: JSON.stringify({
             "characterName": charName,
